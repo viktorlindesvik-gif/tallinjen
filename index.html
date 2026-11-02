@@ -56,6 +56,7 @@ button.on{background:var(--acc);color:var(--bg)}
 #lp .r #sx{width:100%;height:48px;margin-top:6px;border:0;border-radius:14px;background:var(--acc2);color:var(--bg);font-size:15px;font-weight:600;letter-spacing:.02em;box-shadow:0 8px 20px -10px var(--acc2)}
 #lp .r #sx:hover{background:var(--acc2);filter:brightness(1.08)}
 #lvl{margin-top:8px;font:500 12px 'JetBrains Mono',ui-monospace,monospace;letter-spacing:.04em;color:var(--ink);opacity:.8}
+@media (min-width:900px){main.side{margin-right:378px}#lp{position:fixed;left:auto;right:14px;top:14px;bottom:74px;transform:none;width:350px;max-height:none}}
 [hidden]{display:none!important}
 @media (max-width:520px){#top{flex-direction:column;align-items:stretch;gap:10px}#gt{flex:1;width:auto}}
 </style></head><body>
@@ -95,7 +96,7 @@ let W=1,H=1,MW=1,MH=1,dpr=1,view={c:50,p:1},sel=null,hits=[],anim=null,raf=0,ini
 const css=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
 const cl=(v,a,b)=>Math.min(b,Math.max(a,v)),minP=()=>W/106,fm=(v,d)=>v.toFixed(d).replace('.',','),nf=(v,p)=>{let s=fm(v,cl(Math.floor(Math.log10(p)),0,5));if(s.includes(','))s=s.replace(/0+$/,'').replace(/,$/,'');return s};
 const X=v=>W/2+(v-view.c)*view.p,V=x=>view.c+(x-W/2)/view.p;
-const AY=()=>Math.round(H*.6),fade=x=>1-.85*Math.pow(Math.min(1,Math.abs(x-W/2)/(W/2)),2);
+const AY=()=>Math.round(H*(innerWidth<900&&!$('#lp').hidden?.3:.6)),fade=x=>1-.85*Math.pow(Math.min(1,Math.abs(x-W/2)/(W/2)),2);
 function clampV(){view.p=cl(view.p,minP(),MAXP);view.c=cl(view.c,0,100)}
 function size(){dpr=devicePixelRatio||1;for(const c of[cv,mm]){const r=c.getBoundingClientRect();c.width=Math.round(r.width*dpr);c.height=Math.round(r.height*dpr)}
 W=cv.clientWidth;H=cv.clientHeight;MW=mm.clientWidth;MH=mm.clientHeight;if(!init&&W>1){init=1;view.p=minP()}clampV();draw()}
@@ -208,8 +209,8 @@ const LN=['Tiotal','Heltal','Tiondelar','Hundradelar','Tusendelar'],NM=['heltal'
 const TOUR=[{c:50,p:0,t:'Här ser du hela tallinjen, från 0 till 100. Strecken är tiotal: 0, 10, 20 …'},{c:37,p:60,t:'Zooma in! Nu syns heltalen, ett streck för varje. Titta på området runt 37.'},{c:37.5,p:600,t:'Zooma mer. Mellan två heltal ryms 10 tiondelar: 37,2 – 37,3 – 37,4 …'},{c:37.45,p:6000,t:'Ännu mer. Mellan två tiondelar ryms 10 hundradelar: 37,43 – 37,44 – 37,45 …'},{c:37.462,p:60000,t:'Längst in ser du tusendelar. Varje steg in gör skalan 10 gånger finare.'}];
 const fb=(m,ok)=>{const f=$('#fb');if(f){f.textContent=m;f.className='fb'+(ok?' ok':'')}};
 function endEx(){if(!ex)return;ex=null;mark=null;applyVis();draw()}
-function closeLp(){endEx();$('#lp').hidden=true}
-function openLp(){if(drawing)$('#dr').click();select(null);found=null;ti=0;$('#lp').hidden=false;lpTab('tour')}
+function closeLp(){endEx();$('#lp').hidden=true;$('main').classList.remove('side');draw()}
+function openLp(){if(drawing)$('#dr').click();select(null);found=null;ti=0;$('#lp').hidden=false;$('main').classList.add('side');lpTab('tour');draw()}
 function lpTab(t){endEx();document.querySelectorAll('#lt .tab').forEach(b=>b.classList.toggle('on',b.dataset.t==t));if(t=='tour')tour();else exMenu()}
 function tour(){const s=TOUR[ti];$('#pg').innerHTML=`<p class='st'>Steg ${ti+1} av ${TOUR.length}</p><p class='tt'>${s.t}</p><div class='r'><button id='tb'>Bakåt</button><button id='tn' class='pri'>${ti<TOUR.length-1?'Nästa':'Prova själv'}</button></div>`;
 $('#tb').disabled=!ti;$('#tb').onclick=()=>{ti--;tour()};$('#tn').onclick=()=>{if(ti<TOUR.length-1){ti++;tour()}else{ti=0;lpTab('ex')}};go(s.c,s.p||minP())}
@@ -257,6 +258,6 @@ function hint2(){if(ex.done)return;const k=ex.kind;fb(k=='round'?'Zooma in tills
 document.querySelectorAll('#lt .tab').forEach(b=>b.onclick=()=>lpTab(b.dataset.t));
 $('#lx').onclick=closeLp;$('#ls').onclick=()=>$('#lp').hidden?openLp():closeLp();
 $('#undo').onclick=()=>{strokes.pop();draw()};$('#clr').onclick=()=>{strokes.length=0;draw()};
-new ResizeObserver(size).observe(document.body);matchMedia('(prefers-color-scheme: dark)').onchange=draw;size();flash(H0,7000);
+const ro=new ResizeObserver(size);ro.observe(document.body);ro.observe(cv);matchMedia('(prefers-color-scheme: dark)').onchange=draw;size();flash(H0,7000);
 if(document.fonts){Promise.all([document.fonts.load('12px "JetBrains Mono"'),document.fonts.load('40px "Instrument Serif"')]).then(draw).catch(()=>{})}
 </script></body></html>
