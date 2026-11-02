@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="sv"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Tallinje</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f3f0e8;--ink:#17150f;--mut:#8a8576;--edge:rgba(23,21,15,.13);--glass:rgba(255,252,245,.74);--pill:#fffdf7;--acc:#e4572e;--acc2:#0f8b8d;--glow:rgba(228,87,46,.09);--hover:rgba(23,21,15,.07);box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0b0d12;--ink:#ecebe5;--mut:#7b8090;--edge:rgba(255,255,255,.1);--glass:rgba(22,25,34,.68);--pill:#1a1d28;--acc:#ffb347;--acc2:#5fd0c5;--glow:rgba(255,179,71,.1);--hover:rgba(255,255,255,.08)}}
+:root[data-theme="dark"]{--bg:#0b0d12;--ink:#ecebe5;--mut:#7b8090;--edge:rgba(255,255,255,.1);--glass:rgba(22,25,34,.68);--pill:#1a1d28;--acc:#ffb347;--acc2:#5fd0c5;--glow:rgba(255,179,71,.1);--hover:rgba(255,255,255,.08)}
+html,body{height:100%;margin:0}
+body{display:flex;flex-direction:column;background:var(--bg);color:var(--ink);font:14px system-ui,-apple-system,"Segoe UI",sans-serif;-webkit-font-smoothing:antialiased;overflow:hidden}
+main{flex:1;position:relative;min-height:0;background:radial-gradient(110% 60% at 50% 60%,var(--glow),transparent 65%)}
+#cv{display:block;width:100%;height:100%;touch-action:none;cursor:grab}
+#mm{display:block;width:100%;height:60px;touch-action:none;border-top:1px solid var(--edge)}
+svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round;flex:none}
+button{font:inherit;color:var(--ink);background:none;border:0;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:6px;height:40px;min-width:40px;padding:0 12px;border-radius:999px;transition:background .15s,transform .1s}
+button:hover{background:var(--hover)}button:active{transform:scale(.93)}
+button.on{background:var(--acc);color:var(--bg)}
+.glass{background:var(--glass);border:1px solid var(--edge);backdrop-filter:blur(16px) saturate(1.4);-webkit-backdrop-filter:blur(16px) saturate(1.4);box-shadow:0 12px 32px -14px rgba(0,0,0,.4)}
+#top{position:absolute;top:0;left:0;right:0;display:flex;justify-content:space-between;align-items:flex-start;gap:12px;padding:16px 18px;pointer-events:none}
+#big small{display:block;font-size:10.5px;letter-spacing:.22em;color:var(--mut);font-weight:600}
+#big b{display:block;font:400 clamp(46px,12vw,78px)/1 "Instrument Serif",Georgia,serif;letter-spacing:-.02em;font-variant-numeric:tabular-nums;margin:4px 0 2px}
+#big span{font:400 11.5px "JetBrains Mono",ui-monospace,monospace;color:var(--mut)}
+#sr{pointer-events:auto;display:flex;align-items:center;gap:4px;padding:4px 4px 4px 14px;border-radius:999px;color:var(--mut)}
+#gt{border:0;background:none;outline:0;color:var(--ink);font:inherit;width:150px;min-width:0}
+#gt::placeholder{color:var(--mut)}
+.chip{pointer-events:auto;height:32px;min-width:0;padding:0 14px;margin-top:10px;font-size:12.5px;color:var(--mut)}
+#go{background:var(--acc);color:var(--bg);height:34px;min-width:34px;padding:0}
+#go:hover{background:var(--acc);filter:brightness(1.1)}
+#dock{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:2px;padding:5px;border-radius:999px;white-space:nowrap}
+#dock i{width:1px;height:20px;background:var(--edge);margin:0 4px}
+#all{font:500 12.5px "JetBrains Mono",ui-monospace,monospace}
+#tools{position:absolute;bottom:76px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:4px;padding:5px 8px;border-radius:999px}
+.sw{width:26px;height:26px;min-width:26px;padding:0;margin:0 3px}
+.sw.on{box-shadow:0 0 0 2px var(--pill),0 0 0 4px var(--ink)}
+#card{position:absolute;bottom:76px;left:50%;transform:translateX(-50%);width:min(400px,92vw);box-sizing:border-box;padding:14px 16px;border-radius:20px}
+#card b{display:block;font:400 26px/1.1 "Instrument Serif",Georgia,serif}
+#card p{margin:8px 0 0;color:var(--mut);line-height:1.4}
+#card .r{display:flex;gap:6px;margin-top:12px}
+#card .r button{height:34px;border:1px solid var(--edge)}
+#hint{position:absolute;bottom:78px;left:0;right:0;text-align:center;color:var(--mut);font-size:12px;pointer-events:none;padding:0 16px;opacity:0;transition:opacity .6s}
+#card:not([hidden])~#hint,#lp:not([hidden])~#hint,body.drawing #hint{display:none}
+#lp{position:absolute;bottom:76px;left:50%;transform:translateX(-50%);width:min(440px,94vw);box-sizing:border-box;padding:12px 14px 14px;border-radius:20px;max-height:58%;overflow:auto}
+#lt{display:flex;align-items:center;gap:4px;margin-bottom:6px}
+#lt button{height:34px;font-size:13px}#lt .tab.on{background:var(--ink);color:var(--bg)}#lx{margin-left:auto;min-width:34px;padding:0}
+#lp p{margin:6px 0;line-height:1.45}
+#lp .st{color:var(--mut);font:500 11px 'JetBrains Mono',monospace;letter-spacing:.08em;text-transform:uppercase}
+#lp .tt{font:400 23px/1.2 'Instrument Serif',Georgia,serif}
+#lp .r{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+#lp .r button{height:34px;border:1px solid var(--edge);font-size:13px}
+#lp .r button.on,#lp .pri{background:var(--acc);color:var(--bg);border-color:transparent}
+#lp .r button:disabled{opacity:.35}
+#lp input{flex:1;min-width:0;height:34px;border:1px solid var(--edge);border-radius:999px;background:var(--pill);color:var(--ink);padding:0 14px;font:inherit;outline:0}
+#lp .fb{min-height:1.4em;font-weight:600}#lp .ok{color:var(--acc2)}
+#lp .r #sx{width:100%;height:48px;margin-top:6px;border:0;border-radius:14px;background:var(--acc2);color:var(--bg);font-size:15px;font-weight:600;letter-spacing:.02em;box-shadow:0 8px 20px -10px var(--acc2)}
+#lp .r #sx:hover{background:var(--acc2);filter:brightness(1.08)}
+#lvl{margin-top:8px;font:500 12px 'JetBrains Mono',ui-monospace,monospace;letter-spacing:.04em;color:var(--ink);opacity:.8}
+[hidden]{display:none!important}
+@media (max-width:520px){#top{flex-direction:column;align-items:stretch;gap:10px}#gt{flex:1;width:auto}}
+</style></head><body>
+<main><canvas id="cv"></canvas>
+<div id="top"><div id="big"><small>TALLINJE</small><div id="rv"><b id="bv"></b><span id="bs"></span></div><div id="lvl"></div><button id="tg" class="glass chip">Dölj talet</button></div>
+<div id="sr" class="glass"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4.5 4.5"/></svg><input id="gt" inputmode="decimal" enterkeyhint="go" placeholder="Sök tal, t.ex. 3,14159" aria-label="Sök tal"><button id="go" aria-label="Gå"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button></div></div>
+<div id="card" class="glass" hidden></div>
+<div id='lp' class='glass' hidden><div id='lt'><button class='tab on' data-t='tour'>Guide</button><button class='tab' data-t='ex'>Övning</button><button id='lx' aria-label='Stäng'><svg viewBox='0 0 24 24'><path d='M6 6l12 12M18 6 6 18'/></svg></button></div><div id='pg'></div></div>
+<div id="hint">Dra för att flytta · nyp eller skrolla för att zooma · tryck för att centrera</div>
+<div id="tools" class="glass" hidden><button class="sw" data-c="#ff5d5d" style="background:#ff5d5d" aria-label="Röd"></button><button class="sw" data-c="#4da3ff" style="background:#4da3ff" aria-label="Blå"></button><button class="sw" data-c="#3ddc97" style="background:#3ddc97" aria-label="Grön"></button><button class="sw" data-c="#ffd23f" style="background:#ffd23f" aria-label="Gul"></button><i style="width:1px;height:20px;background:var(--edge);margin:0 4px"></i>
+<button id="undo" aria-label="Ångra"><svg viewBox="0 0 24 24"><path d="M9 14 4 9l5-5M4 9h10a6 6 0 0 1 0 12h-3"/></svg></button><button id="clr" aria-label="Rensa"><svg viewBox="0 0 24 24"><path d="M5 7h14M10 7V4h4v3M7 7l1 13h8l1-13"/></svg></button></div>
+<div id="dock" class="glass"><button id="zo" aria-label="Zooma ut"><svg viewBox="0 0 24 24"><path d="M5 12h14"/></svg></button><button id="zi" aria-label="Zooma in"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></button><button id="all" aria-label="Visa hela linjen">0–100</button><i></i><button id="dr"><svg viewBox="0 0 24 24"><path d="M4 20l4-1 11-11-3-3L5 16l-1 4z"/></svg><span>Rita</span></button><button id="ls"><svg viewBox="0 0 24 24"><path d="M4 5.5A1.5 1.5 0 0 1 5.5 4H11v15H5.5A1.5 1.5 0 0 0 4 20.5zM20 5.5A1.5 1.5 0 0 0 18.5 4H13v15h5.5a1.5 1.5 0 0 1 1.5 1.5z"/></svg><span>Lär</span></button></div>
+</main>
+<canvas id="mm"></canvas>
+<script>
+const $=s=>document.querySelector(s);
+const C=[
+['1/3',1/3,'En tredjedel: 0,333… med oändligt många treor.'],
+['2/3',2/3,'Två tredjedelar: 0,666… utan slut.'],
+['γ',0.5772156649,'Euler–Mascheronis konstant, nära kopplad till harmoniska serien.'],
+['ln 2',Math.LN2,'Naturliga logaritmen av 2.'],
+['√2',Math.SQRT2,'Diagonalen i en kvadrat med sidan 1. Första kända irrationella talet.'],
+['ζ(3)',1.2020569032,'Apérys konstant, summan av 1/n³.'],
+['φ',(1+Math.sqrt(5))/2,'Gyllene snittet.'],
+['e',Math.E,'Basen för naturliga logaritmer.'],
+['π',Math.PI,'Omkretsen delad med diametern.'],
+['√10',Math.sqrt(10),'Kvadratroten ur tio.'],
+['τ',2*Math.PI,'Hela varvet i radianer, 2π.'],
+['δ',4.6692016091,'Feigenbaums konstant, kaosteorins signatur.'],
+['e^π',Math.exp(Math.PI),'Gelfonds konstant, ovanligt nära ett heltal.'],
+['42',42,'Svaret på allt, enligt Liftarens guide till galaxen.'],
+['√5000',Math.sqrt(5000),'Ungefär 70,71, där √2 möter hundratal.']
+].map(([n,v,x])=>({n,v,x}));
+const LV=[{u:10,d:0,h:30},{u:1,d:0,h:22},{u:.1,d:1,h:16},{u:.01,d:2,h:11},{u:.001,d:3,h:7}],FS=[14,13,11.5,10.5,10],MONO='"JetBrains Mono",ui-monospace,monospace';
+const cv=$('#cv'),ctx=cv.getContext('2d'),mm=$('#mm'),mx=mm.getContext('2d'),MAXP=2.5e5;
+let W=1,H=1,MW=1,MH=1,dpr=1,view={c:50,p:1},sel=null,hits=[],anim=null,raf=0,init=0,drawing=false,strokes=[],cur=null,pen='#ff5d5d',found=null,ex=null,mark=null,ti=0,exKind='find',exLv=0;
+const css=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const cl=(v,a,b)=>Math.min(b,Math.max(a,v)),minP=()=>W/106,fm=(v,d)=>v.toFixed(d).replace('.',','),nf=(v,p)=>{let s=fm(v,cl(Math.floor(Math.log10(p)),0,5));if(s.includes(','))s=s.replace(/0+$/,'').replace(/,$/,'');return s};
+const X=v=>W/2+(v-view.c)*view.p,V=x=>view.c+(x-W/2)/view.p;
+const AY=()=>Math.round(H*.6),fade=x=>1-.85*Math.pow(Math.min(1,Math.abs(x-W/2)/(W/2)),2);
+function clampV(){view.p=cl(view.p,minP(),MAXP);view.c=cl(view.c,0,100)}
+function size(){dpr=devicePixelRatio||1;for(const c of[cv,mm]){const r=c.getBoundingClientRect();c.width=Math.round(r.width*dpr);c.height=Math.round(r.height*dpr)}
+W=cv.clientWidth;H=cv.clientHeight;MW=mm.clientWidth;MH=mm.clientHeight;if(!init&&W>1){init=1;view.p=minP()}clampV();draw()}
+function rr(c,x,y,w,h,r){c.beginPath();c.roundRect?c.roundRect(x,y,w,h,r):c.rect(x,y,w,h)}
+function draw(){
+const ink=css('--ink'),mut=css('--mut'),ed=css('--edge'),pc=css('--pill'),acc=css('--acc'),ac2=css('--acc2');
+const p=view.p,ay=AY(),v0=V(0),v1=V(W),xa=X(0),xb=X(100);
+ctx.setTransform(dpr,0,0,dpr,0,0);ctx.clearRect(0,0,W,H);ctx.textBaseline='top';ctx.textAlign='center';ctx.lineCap='butt';
+ctx.lineWidth=1;ctx.strokeStyle=ed;ctx.setLineDash([2,6]);ctx.beginPath();ctx.moveTo(0,ay);ctx.lineTo(W,ay);ctx.stroke();ctx.setLineDash([]);
+const a0=Math.max(0,xa),a1=Math.min(W,xb);if(a1>a0){ctx.strokeStyle=ink;ctx.globalAlpha=.85;ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(a0,ay);ctx.lineTo(a1,ay);ctx.stroke();ctx.globalAlpha=1}
+const LC=[ink,ink,ink,ac2,acc],LA=[1,.8,.5,.85,.95];
+for(let i=0;i<5;i++){const L=LV[i],px=L.u*p;if(px<7)continue;
+const ta=cl((px-7)/18,0,1),la=i?cl((px-30)/20,0,1):1;
+const k0=Math.max(0,Math.ceil(v0/L.u)),k1=Math.min(Math.round(100/L.u),Math.floor(v1/L.u));
+for(let k=k0;k<=k1;k++){if(i&&k%10==0)continue;
+const v=L.u>=1?k*L.u:k/Math.round(1/L.u),x=X(v),e=i?fade(x):1;
+if(i<4){ctx.globalAlpha=.06*ta*e;ctx.strokeStyle=ink;ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,ay);ctx.stroke()}
+ctx.globalAlpha=ta*e*LA[i];ctx.strokeStyle=LC[i];ctx.lineWidth=i?1:1.6;ctx.beginPath();ctx.moveTo(x,ay);ctx.lineTo(x,ay+L.h);ctx.stroke();
+if(la>0){ctx.globalAlpha=la*e*LA[i];ctx.fillStyle=LC[i];ctx.font=(i<2?'500 ':'400 ')+FS[i]+'px '+MONO;ctx.fillText(fm(v,L.d),x,ay+L.h+7)}}}
+ctx.globalAlpha=1;hits=[];
+const ca=ex?0:cl((p-15)/45,0,1);
+if(ca>0||sel){ctx.font='600 12.5px system-ui,sans-serif';const lanes=[],pl=[],Lm=Math.max(1,Math.min(4,Math.floor((ay-(W<520?190:130)-26)/30)));
+for(const o of C){const x=X(o.v);if(x<-90||x>W+90)continue;
+const lab=o.n+(p>300?'  '+nf(o.v,p):''),w=ctx.measureText(lab).width+30;let L=-1;
+for(let l=0;l<Lm;l++){const a=lanes[l]||(lanes[l]=[]);if(a.every(r=>x-w/2>r[1]+4||x+w/2<r[0]-4)){a.push([x-w/2,x+w/2]);L=l;break}}
+if(L>=0)pl.push({o,x,w,L,lab})}
+for(const q of pl){const y=ay-54-q.L*30,al=(q.o===sel?1:ca)*fade(q.x);if(al<=.01)continue;const on=q.o===sel;
+ctx.globalAlpha=al*.45;ctx.strokeStyle=ac2;ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(q.x,ay-6);ctx.lineTo(q.x,y+26);ctx.stroke();
+ctx.globalAlpha=al;rr(ctx,q.x-q.w/2,y,q.w,26,13);ctx.fillStyle=pc;ctx.fill();ctx.strokeStyle=on?ac2:ed;ctx.lineWidth=on?2:1;ctx.stroke();
+ctx.beginPath();ctx.arc(q.x-q.w/2+13,y+13,3,0,7);ctx.fillStyle=ac2;ctx.fill();
+ctx.fillStyle=ink;ctx.fillText(q.lab,q.x+7,y+6);
+ctx.beginPath();ctx.arc(q.x,ay,5,0,7);ctx.fillStyle=pc;ctx.fill();ctx.strokeStyle=ac2;ctx.lineWidth=2;ctx.stroke();ctx.beginPath();ctx.arc(q.x,ay,1.8,0,7);ctx.fillStyle=ac2;ctx.fill();
+hits.push({x:q.x-q.w/2,y,w:q.w,h:26,o:q.o},{x:q.x-10,y:ay-10,w:20,h:20,o:q.o})}
+ctx.globalAlpha=1}
+if(mark!==null){const xm=X(mark);if(xm>-30&&xm<W+30){ctx.setLineDash([4,3]);ctx.strokeStyle=acc;ctx.lineWidth=2;ctx.beginPath();ctx.arc(xm,ay,11,0,7);ctx.stroke();ctx.setLineDash([]);ctx.fillStyle=acc;ctx.font='600 15px system-ui,sans-serif';ctx.fillText('?',xm,ay-36)}}
+if(found!==null){const fx=X(found);if(fx>-30&&fx<W+30){ctx.strokeStyle=acc;ctx.lineWidth=2;ctx.beginPath();ctx.arc(fx,ay,9,0,7);ctx.stroke();ctx.globalAlpha=.3;ctx.beginPath();ctx.arc(fx,ay,15,0,7);ctx.stroke();ctx.globalAlpha=1}}
+ctx.lineCap='round';ctx.lineJoin='round';ctx.lineWidth=3;
+for(const s of strokes){if(X(s.b)<-20||X(s.a)>W+20)continue;ctx.strokeStyle=s.c;ctx.fillStyle=s.c;
+if(s.pts.length<2){ctx.beginPath();ctx.arc(X(s.pts[0][0]),ay+s.pts[0][1]*p,2,0,7);ctx.fill();continue}
+ctx.beginPath();s.pts.forEach(([v,y],i)=>{const x=X(v),yy=ay+y*p;i?ctx.lineTo(x,yy):ctx.moveTo(x,yy)});ctx.stroke()}
+ctx.lineCap='butt';
+const g=ctx.createLinearGradient(0,H*.14,0,ay+46);g.addColorStop(0,'transparent');g.addColorStop(.55,acc);g.addColorStop(1,'transparent');
+ctx.globalAlpha=.75;ctx.strokeStyle=g;ctx.lineWidth=1.2;ctx.beginPath();ctx.moveTo(W/2,H*.14);ctx.lineTo(W/2,ay+46);ctx.stroke();ctx.globalAlpha=1;
+ctx.shadowColor=acc;ctx.shadowBlur=18;ctx.fillStyle=acc;ctx.beginPath();ctx.arc(W/2,ay,4.5,0,7);ctx.fill();ctx.shadowBlur=0;
+const w=W/p;let lv=0;for(let i=0;i<5;i++)if(LV[i].u*p>=40)lv=i;$('#lvl').textContent='●'.repeat(lv+1)+'○'.repeat(4-lv)+'  '+LN[lv];if(ex&&ex.kind=='find'&&!ex.done&&Math.abs(view.c-ex.t)<=.5/ex.s&&p>=40*ex.s)win();if(ex&&ex.kind=='between'&&!ex.done&&view.c>ex.a&&view.c<ex.b&&p>=ex.need)win2();
+$('#bv').textContent=nf(view.c,p);$('#bs').textContent='synlig bredd '+(w>=10?w.toFixed(0):w.toPrecision(2)).replace('.',',');
+mini()}
+function mini(){const mut=css('--mut'),acc=css('--acc'),ac2=css('--acc2'),ed=css('--edge');
+mx.setTransform(dpr,0,0,dpr,0,0);mx.clearRect(0,0,MW,MH);
+const f=v=>16+v/100*(MW-32),mid=22;mx.lineCap='round';mx.strokeStyle=ed;mx.lineWidth=4;mx.beginPath();mx.moveTo(f(0),mid);mx.lineTo(f(100),mid);mx.stroke();
+mx.font='10px '+MONO;mx.textBaseline='top';mx.textAlign='center';mx.fillStyle=mut;
+for(let v=0;v<=100;v+=10)mx.fillText(v,f(v),mid+12);
+for(const o of C){mx.beginPath();mx.arc(f(o.v),mid,2.5,0,7);mx.fillStyle=ac2;mx.fill()}
+const x1=f(cl(V(0),0,100)),x2=f(cl(V(W),0,100)),ww=Math.max(10,x2-x1);rr(mx,x1,mid-10,ww,20,10);mx.globalAlpha=.2;mx.fillStyle=acc;mx.fill();mx.globalAlpha=1;mx.strokeStyle=acc;mx.lineWidth=1.5;mx.stroke()}
+function zoomAt(f,x){if(drawing)return;const t=V(x);view.p=cl(view.p*f,minP(),MAXP);view.c=cl(t-(x-W/2)/view.p,0,100)}
+function go(c,p){if(drawing)return;anim={c:cl(c,0,100),p:cl(p,minP(),MAXP)};if(!raf)raf=requestAnimationFrame(step)}
+function step(){raf=0;if(!anim)return;const k=.2;view.c+=(anim.c-view.c)*k;view.p*=Math.pow(anim.p/view.p,k);
+if(Math.abs(Math.log(anim.p/view.p))<.003&&Math.abs(anim.c-view.c)*view.p<.5){view.c=anim.c;view.p=anim.p;anim=null}
+clampV();draw();if(anim)raf=requestAnimationFrame(step)}
+function select(o){sel=o;const cd=$('#card');if(!o){cd.hidden=true;draw();return}
+cd.hidden=false;cd.innerHTML='';const b=document.createElement('b');b.textContent=o.n+' ≈ '+fm(o.v,10);const d=document.createElement('p');d.textContent=o.x;
+const r=document.createElement('div');r.className='r';const z=document.createElement('button');z.textContent='Zooma hit';z.onclick=()=>go(o.v,Math.max(view.p,20000));
+const x=document.createElement('button');x.textContent='Stäng';x.onclick=()=>select(null);r.append(z,x);cd.append(b,d,r);go(o.v,Math.max(view.p,400));draw()}
+const ptr=new Map();let moved=0,pinch=null;
+const lx=e=>e.clientX-cv.getBoundingClientRect().left,ly=e=>e.clientY-cv.getBoundingClientRect().top;
+cv.onpointerdown=e=>{cv.setPointerCapture(e.pointerId);anim=null;if(drawing){if(!cur){const v=V(lx(e));cur={c:pen,pts:[[v,(ly(e)-AY())/view.p]],a:v,b:v};strokes.push(cur);draw()}return}
+ptr.set(e.pointerId,{x:lx(e),y:ly(e)});moved=0;cv.style.cursor='grabbing';
+if(ptr.size==2){const[a,b]=[...ptr.values()];pinch={d:Math.hypot(a.x-b.x,a.y-b.y),m:(a.x+b.x)/2}}};
+cv.onpointermove=e=>{if(drawing){if(cur){const v=V(lx(e));cur.pts.push([v,(ly(e)-AY())/view.p]);cur.a=Math.min(cur.a,v);cur.b=Math.max(cur.b,v);draw()}return}const o=ptr.get(e.pointerId);if(!o)return;const x=lx(e),y=ly(e);
+if(ptr.size==1){view.c-=(x-o.x)/view.p;moved+=Math.abs(x-o.x)+Math.abs(y-o.y)}
+o.x=x;o.y=y;
+if(ptr.size==2&&pinch){const[a,b]=[...ptr.values()],d=Math.hypot(a.x-b.x,a.y-b.y),m=(a.x+b.x)/2;zoomAt(d/pinch.d,m);view.c-=(m-pinch.m)/view.p;pinch={d,m};moved=99}
+clampV();draw()};
+cv.onpointerup=cv.onpointercancel=e=>{if(drawing){cur=null;return}const o=ptr.get(e.pointerId);ptr.delete(e.pointerId);cv.style.cursor='grab';pinch=null;
+if(o&&ptr.size==0&&moved<6&&e.type=='pointerup'){const h=[...hits].reverse().find(h=>o.x>=h.x&&o.x<=h.x+h.w&&o.y>=h.y&&o.y<=h.y+h.h);
+if(h)select(h.o);else{sel=null;$('#card').hidden=true;go(V(o.x),view.p)}}};
+cv.onwheel=e=>{e.preventDefault();if(drawing)return;anim=null;zoomAt(Math.exp(-e.deltaY*.0015),lx(e));draw()};
+cv.ondblclick=e=>{if(drawing)return;anim=null;zoomAt(2.5,lx(e));draw()};
+let md=0;const mset=e=>{if(drawing)return;const x=e.clientX-mm.getBoundingClientRect().left;anim=null;view.c=cl((x-16)/(MW-32)*100,0,100);draw()};
+mm.onpointerdown=e=>{md=1;mm.setPointerCapture(e.pointerId);mset(e)};mm.onpointermove=e=>{if(md)mset(e)};mm.onpointerup=()=>md=0;
+$('#zi').onclick=()=>go(view.c,view.p*4);$('#zo').onclick=()=>go(view.c,view.p/4);$('#all').onclick=()=>{found=null;go(50,minP())};
+const ALIAS={pi:'π',phi:'φ',tau:'τ',gamma:'γ',sqrt2:'√2'};
+function parseQ(s){s=s.trim().toLowerCase().replace(/\s/g,'').replace(/,/g,'.');if(!s)return null;s=ALIAS[s]||s;
+const k=C.find(o=>o.n.toLowerCase()==s);if(k)return{v:k.v,p:3000,o:k};
+let m=s.match(/^(\d+\.?\d*)\/(\d+\.?\d*)$/);if(m&&+m[2]>0)return{v:+m[1]/+m[2],p:3000};
+m=s.match(/^(\d*)\.?(\d*)$/);if(m&&/\d/.test(s))return{v:parseFloat(s),p:Math.min(MAXP,120*Math.pow(10,Math.min(3,m[2].length)))};
+return null}
+function search(live){if(ex){if(!live)flash('Sökrutan är avstängd under övningen',2800);return}const q=parseQ($('#gt').value);
+if(!q||!(q.v>=0&&q.v<=100)){if(!live)flash(q?'Talet ligger utanför 0–100':'Skriv ett tal mellan 0 och 100, t.ex. 42 eller 3,14159',2800);return}
+if(drawing)$('#dr').click();
+found=q.v;if(q.o)select(q.o);go(q.v,q.p);if(!live)$('#gt').blur()}
+let st;$('#gt').oninput=()=>{clearTimeout(st);st=setTimeout(()=>search(true),350)};
+$('#gt').onkeydown=e=>{if(e.key=='Enter'){clearTimeout(st);search(false)}};
+$('#go').onclick=()=>search(false);
+addEventListener('keydown',e=>{if(e.target.tagName=='INPUT'||drawing)return;if(e.key=='+'||e.key=='=')$('#zi').click();if(e.key=='-')$('#zo').click();
+if(e.key=='ArrowLeft'){view.c-=60/view.p;clampV();draw()}if(e.key=='ArrowRight'){view.c+=60/view.p;clampV();draw()}});
+const hint=$('#hint'),H0=hint.textContent;let ht;
+function flash(m,ms){clearTimeout(ht);hint.textContent=m;hint.style.opacity=1;if(ms)ht=setTimeout(()=>hint.style.opacity=0,ms)}
+function hideHint(){clearTimeout(ht);hint.style.opacity=0}
+['pointerdown','wheel','keydown'].forEach(t=>addEventListener(t,hideHint,{passive:true,capture:true}));
+const PE=$('#dr').innerHTML,PL='<svg viewBox="0 0 24 24"><path d="M7 5l12 7-12 7z"/></svg><span>Fortsätt</span>';
+function setPen(c){pen=c;document.querySelectorAll('.sw').forEach(b=>b.classList.toggle('on',b.dataset.c==c))}
+document.querySelectorAll('.sw').forEach(b=>b.onclick=()=>setPen(b.dataset.c));setPen(pen);
+$('#dr').onclick=()=>{drawing=!drawing;if(drawing)closeLp();anim=null;cur=null;ptr.clear();pinch=null;$('#tools').hidden=!drawing;$('#dr').innerHTML=drawing?PL:PE;$('#dr').classList.toggle('on',drawing);document.body.classList.toggle('drawing',drawing);
+cv.style.cursor=drawing?'crosshair':'grab';if(drawing)select(null);draw()};
+let shown=true;
+function applyVis(){const h=ex&&!ex.done;$('#rv').hidden=!shown||!!h;$('#tg').hidden=!!h;$('#sr').hidden=!!ex}
+$('#tg').onclick=()=>{shown=!shown;$('#tg').textContent=shown?'Dölj talet':'Tryck för att visa talet';applyVis()};
+const LN=['Tiotal','Heltal','Tiondelar','Hundradelar','Tusendelar'],NM=['heltal','tiondelar','hundradelar','tusendelar'];
+const TOUR=[{c:50,p:0,t:'Här ser du hela tallinjen, från 0 till 100. Strecken är tiotal: 0, 10, 20 …'},{c:37,p:60,t:'Zooma in! Nu syns heltalen, ett streck för varje. Titta på området runt 37.'},{c:37.5,p:600,t:'Zooma mer. Mellan två heltal ryms 10 tiondelar: 37,2 – 37,3 – 37,4 …'},{c:37.45,p:6000,t:'Ännu mer. Mellan två tiondelar ryms 10 hundradelar: 37,43 – 37,44 – 37,45 …'},{c:37.462,p:60000,t:'Längst in ser du tusendelar. Varje steg in gör skalan 10 gånger finare.'}];
+const fb=(m,ok)=>{const f=$('#fb');if(f){f.textContent=m;f.className='fb'+(ok?' ok':'')}};
+function endEx(){if(!ex)return;ex=null;mark=null;applyVis();draw()}
+function closeLp(){endEx();$('#lp').hidden=true}
+function openLp(){if(drawing)$('#dr').click();select(null);found=null;ti=0;$('#lp').hidden=false;lpTab('tour')}
+function lpTab(t){endEx();document.querySelectorAll('#lt .tab').forEach(b=>b.classList.toggle('on',b.dataset.t==t));if(t=='tour')tour();else exMenu()}
+function tour(){const s=TOUR[ti];$('#pg').innerHTML=`<p class='st'>Steg ${ti+1} av ${TOUR.length}</p><p class='tt'>${s.t}</p><div class='r'><button id='tb'>Bakåt</button><button id='tn' class='pri'>${ti<TOUR.length-1?'Nästa':'Prova själv'}</button></div>`;
+$('#tb').disabled=!ti;$('#tb').onclick=()=>{ti--;tour()};$('#tn').onclick=()=>{if(ti<TOUR.length-1){ti++;tour()}else{ti=0;lpTab('ex')}};go(s.c,s.p||minP())}
+function exMenu(){const pg=$('#pg');
+pg.innerHTML=`<p class='st'>Välj övning</p><p>Vad vill du träna?</p><div class='r' id='sk'><button data-k='find'>Hitta talet</button><button data-k='read'>Läs av talet</button><button data-k='round'>Avrunda</button><button data-k='between'>Mellan två tal</button><button data-k='mid'>Mitt emellan</button><button data-k='cmp'>Vilket är störst?</button></div><p>Hur noggrant?</p><div class='r' id='sl'>${NM.map((n,i)=>`<button data-l='${i}'>${n[0].toUpperCase()+n.slice(1)}</button>`).join('')}</div><div class='r'><button id='sx'><svg viewBox='0 0 24 24'><path d='M7 5l12 7-12 7z'/></svg>Starta</button></div>`;
+const upd=()=>{pg.querySelectorAll('#sk button').forEach(b=>b.classList.toggle('on',b.dataset.k==exKind));pg.querySelectorAll('#sl button').forEach(b=>b.classList.toggle('on',b.dataset.l==exLv))};
+pg.querySelectorAll('#sk button').forEach(b=>b.onclick=()=>{exKind=b.dataset.k;upd()});
+pg.querySelectorAll('#sl button').forEach(b=>b.onclick=()=>{exLv=+b.dataset.l;upd()});upd();$('#sx').onclick=newEx}
+function newEx(){if(exKind!='find'&&exKind!='read')return newEx2();found=null;const s=Math.pow(10,exLv);let r;do{r=exLv?Math.floor(s+Math.random()*99*s):1+Math.floor(Math.random()*99)}while(exLv&&r%10==0);
+ex={kind:exKind,l:exLv,s,t:r/s,done:false};mark=exKind=='read'?ex.t:null;applyVis();
+anim=null;view.c=50;view.p=minP();clampV();const k=exKind=='find';
+$('#pg').innerHTML=`<p class='st'>${k?'Hitta talet':'Läs av talet'} · ${NM[exLv]}</p>`+(k?`<p class='tt'>Hitta ${fm(ex.t,exLv)}</p><p>Zooma och flytta så att den streckade linjen i mitten pekar exakt på talet.</p>`:`<p class='tt'>Vilket tal pekar ringen på?</p><p>Zooma in tills ringen ligger på ett streck och läs av talet.</p><div class='r'><input id='ans' inputmode='decimal' placeholder='Ditt svar'><button id='ab' class='pri'>Svara</button></div>`)+`<p class='fb' id='fb'></p><div class='r'><button id='hb'>Ledtråd</button><button id='nx'>Nytt tal</button><button id='qx'>Avsluta</button></div>`;
+$('#nx').onclick=newEx;$('#qx').onclick=()=>lpTab('ex');$('#hb').onclick=hintEx;
+if(!k){$('#ab').onclick=check;$('#ans').onkeydown=e=>{if(e.key=='Enter')check()}}draw()}
+function win(){ex.done=true;applyVis();fb(`Rätt! ${ex.kind=='find'?'Du hittade':'Ringen pekar på'} ${fm(ex.t,ex.l)}.`,1);const n=$('#nx');if(n)n.classList.add('pri')}
+function hintEx(){if(ex.done)return;if(ex.kind=='find')fb(view.p<30*ex.s?`Zooma in tills du ser ${NM[ex.l]} som streck.`:view.c<ex.t?'Talet ligger längre till höger på linjen.':'Talet ligger längre till vänster på linjen.');else fb('Ta ett steg i taget: mellan vilka tiotal ligger ringen? Zooma in och titta sedan på heltalen, tiondelarna …')}
+function check(){if(ex.done)return;const v=parseFloat($('#ans').value.replace(',','.'));if(!isFinite(v))return fb('Skriv ett tal, till exempel 12,5.');
+if(Math.abs(v-ex.t)<1e-9)win();else fb(Math.abs(v-ex.t)<=3/ex.s?'Nära! Zooma in mer och se vilket streck ringen ligger på.':'Inte riktigt. Zooma in och läs av streck för streck.')}
+const KN={round:'Avrunda',between:'Mellan två tal',mid:'Mitt emellan',cmp:'Vilket är störst?'},SN=['heltal','tiondel','hundradel','tusendel'];
+function newEx2(){found=null;const d=exLv,s=Math.pow(10,d),k=exKind,R=(a,b)=>a+Math.floor(Math.random()*(b-a));
+ex={kind:k,l:d,s,done:false};mark=null;let h='';
+const inp=`<div class='r'><input id='ans' inputmode='decimal' placeholder='Ditt svar'><button id='ab' class='pri'>Svara</button></div>`;
+if(k=='round'){let r;do{r=R(10*s,990*s)}while(r%10==0);ex.t=r/(10*s);ex.ans=Math.floor((r+5)/10)/s;ex.dg=r%10;mark=ex.t;
+h=`<p class='tt'>Avrunda till närmaste ${SN[d]}</p><p>Ringen visar ett tal. Zooma in, se vilket streck den ligger närmast och skriv det talet.</p>`+inp}
+else if(k=='between'){const a=R(s,99*s);ex.a=a/s;ex.b=(a+1)/s;ex.need=Math.min(2.2e5,400*s);
+h=`<p class='tt'>Hitta ett tal mellan ${fm(ex.a,d)} och ${fm(ex.b,d)}</p><p>Zooma in och flytta så att mittlinjen står mellan de två talen. Zooma så långt du kan!</p>`}
+else if(k=='mid'){const j=R(1,6),a=R(s,90*s);ex.a=a/s;ex.ans=(a+j)/s;
+h=`<p class='tt'>Vad ligger mitt emellan ${fm(ex.a,d)} och ${fm((a+2*j)/s,d)}?</p><p>Använd linjen för att räkna steg mellan talen.</p>`+inp}
+else{const a=R(s,99*s);let b;do{b=a*10+R(-9,10)}while(b%10==0);ex.X=a/s;ex.Y=b/(10*s);ex.big=Math.max(ex.X,ex.Y);ex.opts=[ex.X,ex.Y];if(Math.random()<.5)ex.opts.reverse();
+h=`<p class='tt'>Vilket tal är störst?</p><p>Du kan zooma på linjen och kolla.</p><div class='r'>${ex.opts.map((v,i)=>`<button class='o' data-i='${i}'>${fm(v,v==ex.X?d:d+1)}</button>`).join('')}</div>`}
+anim=null;view.c=50;view.p=minP();clampV();applyVis();
+$('#pg').innerHTML=`<p class='st'>${KN[k]} · ${NM[d]}</p>${h}<p class='fb' id='fb'></p><div class='r'><button id='hb'>Ledtråd</button><button id='nx'>Nytt tal</button><button id='qx'>Avsluta</button></div>`;
+$('#nx').onclick=newEx;$('#qx').onclick=()=>lpTab('ex');$('#hb').onclick=hint2;
+const ab=$('#ab');if(ab){ab.onclick=check2;$('#ans').onkeydown=e=>{if(e.key=='Enter')check2()}}
+document.querySelectorAll('#pg .o').forEach(b=>b.onclick=()=>{if(ex.done)return;if(ex.opts[+b.dataset.i]==ex.big){ex.done=true;applyVis();fb(`Rätt! ${fm(ex.X,d+1)} och ${fm(ex.Y,d+1)}: störst är ${fm(ex.big,d+1)}. Fler siffror betyder inte att talet är större.`,1);$('#nx').classList.add('pri')}else fb('Inte riktigt. Skriv båda talen med lika många decimaler och jämför.')});
+draw()}
+function check2(){if(ex.done)return;const v=parseFloat($('#ans').value.replace(',','.'));if(!isFinite(v))return fb('Skriv ett tal, till exempel 12,5.');
+if(Math.abs(v-ex.ans)<1e-9)win2();else fb(ex.kind=='round'?'Inte riktigt. Titta på vilket streck ringen ligger närmast.':'Inte riktigt. Räkna stegen mellan talen och ta halva vägen.')}
+function win2(){ex.done=true;applyVis();const k=ex.kind,d=ex.l;let m='';
+if(k=='round')m=`Rätt, ${fm(ex.ans,d)}! Siffran efter är ${ex.dg}, så vi avrundar ${ex.dg>=5?'uppåt':'nedåt'}.`;
+else if(k=='mid')m=`Rätt, ${fm(ex.ans,d)}! Det är halva avståndet mellan talen.`;
+else m=`Bra! Mellan ${fm(ex.a,d)} och ${fm(ex.b,d)} finns fler tal, till exempel ${nf(view.c,view.p)}. Det finns oändligt många.`;
+fb(m,1);const n=$('#nx');if(n)n.classList.add('pri')}
+function hint2(){if(ex.done)return;const k=ex.kind;fb(k=='round'?'Zooma in tills du ser tydliga streck. Vilket streck ligger ringen närmast?':k=='between'?'Zooma in ännu mer. Mellan två streck finns fler tal!':k=='mid'?'Hur många steg är det mellan talen? Mitt emellan är halva vägen.':'Leta upp båda talen på linjen. Vilket ligger längst åt höger?')}
+document.querySelectorAll('#lt .tab').forEach(b=>b.onclick=()=>lpTab(b.dataset.t));
+$('#lx').onclick=closeLp;$('#ls').onclick=()=>$('#lp').hidden?openLp():closeLp();
+$('#undo').onclick=()=>{strokes.pop();draw()};$('#clr').onclick=()=>{strokes.length=0;draw()};
+new ResizeObserver(size).observe(document.body);matchMedia('(prefers-color-scheme: dark)').onchange=draw;size();flash(H0,7000);
+if(document.fonts){Promise.all([document.fonts.load('12px "JetBrains Mono"'),document.fonts.load('40px "Instrument Serif"')]).then(draw).catch(()=>{})}
+</script></body></html>
