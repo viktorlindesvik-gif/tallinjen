@@ -1,263 +1,189 @@
 <!DOCTYPE html>
-<html lang="sv"><head><meta charset="utf-8">
+<html lang="sv">
+<head>
+<meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Tallinje</title>
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<title>Riviera Byggkonsult</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;500;600&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#f3f0e8;--ink:#17150f;--mut:#8a8576;--edge:rgba(23,21,15,.13);--glass:rgba(255,252,245,.74);--pill:#fffdf7;--acc:#e4572e;--acc2:#0f8b8d;--glow:rgba(228,87,46,.09);--hover:rgba(23,21,15,.07);box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0b0d12;--ink:#ecebe5;--mut:#7b8090;--edge:rgba(255,255,255,.1);--glass:rgba(22,25,34,.68);--pill:#1a1d28;--acc:#ffb347;--acc2:#5fd0c5;--glow:rgba(255,179,71,.1);--hover:rgba(255,255,255,.08)}}
-:root[data-theme="dark"]{--bg:#0b0d12;--ink:#ecebe5;--mut:#7b8090;--edge:rgba(255,255,255,.1);--glass:rgba(22,25,34,.68);--pill:#1a1d28;--acc:#ffb347;--acc2:#5fd0c5;--glow:rgba(255,179,71,.1);--hover:rgba(255,255,255,.08)}
-html,body{height:100%;margin:0}
-body{display:flex;flex-direction:column;background:var(--bg);color:var(--ink);font:14px system-ui,-apple-system,"Segoe UI",sans-serif;-webkit-font-smoothing:antialiased;overflow:hidden}
-main{flex:1;position:relative;min-height:0;background:radial-gradient(110% 60% at 50% 60%,var(--glow),transparent 65%)}
-#cv{display:block;width:100%;height:100%;touch-action:none;cursor:grab}
-#mm{display:block;width:100%;height:60px;touch-action:none;border-top:1px solid var(--edge)}
-svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round;flex:none}
-button{font:inherit;color:var(--ink);background:none;border:0;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:6px;height:40px;min-width:40px;padding:0 12px;border-radius:999px;transition:background .15s,transform .1s}
-button:hover{background:var(--hover)}button:active{transform:scale(.93)}
-button.on{background:var(--acc);color:var(--bg)}
-.glass{background:var(--glass);border:1px solid var(--edge);backdrop-filter:blur(16px) saturate(1.4);-webkit-backdrop-filter:blur(16px) saturate(1.4);box-shadow:0 12px 32px -14px rgba(0,0,0,.4)}
-#top{position:absolute;top:0;left:0;right:0;display:flex;justify-content:space-between;align-items:flex-start;gap:12px;padding:16px 18px;pointer-events:none}
-#big small{display:block;font-size:10.5px;letter-spacing:.22em;color:var(--mut);font-weight:600}
-#big b{display:block;font:400 clamp(46px,12vw,78px)/1 "Instrument Serif",Georgia,serif;letter-spacing:-.02em;font-variant-numeric:tabular-nums;margin:4px 0 2px}
-#big span{font:400 11.5px "JetBrains Mono",ui-monospace,monospace;color:var(--mut)}
-#sr{pointer-events:auto;display:flex;align-items:center;gap:4px;padding:4px 4px 4px 14px;border-radius:999px;color:var(--mut)}
-#gt{border:0;background:none;outline:0;color:var(--ink);font:inherit;width:150px;min-width:0}
-#gt::placeholder{color:var(--mut)}
-.chip{pointer-events:auto;height:32px;min-width:0;padding:0 14px;margin-top:10px;font-size:12.5px;color:var(--mut)}
-#go{background:var(--acc);color:var(--bg);height:34px;min-width:34px;padding:0}
-#go:hover{background:var(--acc);filter:brightness(1.1)}
-#dock{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:2px;padding:5px;border-radius:999px;white-space:nowrap}
-#dock i{width:1px;height:20px;background:var(--edge);margin:0 4px}
-#all{font:500 12.5px "JetBrains Mono",ui-monospace,monospace}
-#tools{position:absolute;bottom:76px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:4px;padding:5px 8px;border-radius:999px}
-.sw{width:26px;height:26px;min-width:26px;padding:0;margin:0 3px}
-.sw.on{box-shadow:0 0 0 2px var(--pill),0 0 0 4px var(--ink)}
-#card{position:absolute;bottom:76px;left:50%;transform:translateX(-50%);width:min(400px,92vw);box-sizing:border-box;padding:14px 16px;border-radius:20px}
-#card b{display:block;font:400 26px/1.1 "Instrument Serif",Georgia,serif}
-#card p{margin:8px 0 0;color:var(--mut);line-height:1.4}
-#card .r{display:flex;gap:6px;margin-top:12px}
-#card .r button{height:34px;border:1px solid var(--edge)}
-#hint{position:absolute;bottom:78px;left:0;right:0;text-align:center;color:var(--mut);font-size:12px;pointer-events:none;padding:0 16px;opacity:0;transition:opacity .6s}
-#card:not([hidden])~#hint,#lp:not([hidden])~#hint,body.drawing #hint{display:none}
-#lp{position:absolute;bottom:76px;left:50%;transform:translateX(-50%);width:min(440px,94vw);box-sizing:border-box;padding:12px 14px 14px;border-radius:20px;max-height:58%;overflow:auto}
-#lt{display:flex;align-items:center;gap:4px;margin-bottom:6px}
-#lt button{height:34px;font-size:13px}#lt .tab.on{background:var(--ink);color:var(--bg)}#lx{margin-left:auto;min-width:34px;padding:0}
-#lp p{margin:6px 0;line-height:1.45}
-#lp .st{color:var(--mut);font:500 11px 'JetBrains Mono',monospace;letter-spacing:.08em;text-transform:uppercase}
-#lp .tt{font:400 23px/1.2 'Instrument Serif',Georgia,serif}
-#lp .r{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
-#lp .r button{height:34px;border:1px solid var(--edge);font-size:13px}
-#lp .r button.on,#lp .pri{background:var(--acc);color:var(--bg);border-color:transparent}
-#lp .r button:disabled{opacity:.35}
-#lp input{flex:1;min-width:0;height:34px;border:1px solid var(--edge);border-radius:999px;background:var(--pill);color:var(--ink);padding:0 14px;font:inherit;outline:0}
-#lp .fb{min-height:1.4em;font-weight:600}#lp .ok{color:var(--acc2)}
-#lp .r #sx{width:100%;height:48px;margin-top:6px;border:0;border-radius:14px;background:var(--acc2);color:var(--bg);font-size:15px;font-weight:600;letter-spacing:.02em;box-shadow:0 8px 20px -10px var(--acc2)}
-#lp .r #sx:hover{background:var(--acc2);filter:brightness(1.08)}
-#lvl{margin-top:8px;font:500 12px 'JetBrains Mono',ui-monospace,monospace;letter-spacing:.04em;color:var(--ink);opacity:.8}
-@media (min-width:900px){main.side{margin-right:378px}#lp{position:fixed;left:auto;right:14px;top:14px;bottom:74px;transform:none;width:350px;max-height:none}}
-[hidden]{display:none!important}
-@media (max-width:520px){#top{flex-direction:column;align-items:stretch;gap:10px}#gt{flex:1;width:auto}}
-</style></head><body>
-<main><canvas id="cv"></canvas>
-<div id="top"><div id="big"><small>TALLINJE</small><div id="rv"><b id="bv"></b><span id="bs"></span></div><div id="lvl"></div><button id="tg" class="glass chip">Dölj talet</button></div>
-<div id="sr" class="glass"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4.5 4.5"/></svg><input id="gt" inputmode="decimal" enterkeyhint="go" placeholder="Sök tal, t.ex. 3,14159" aria-label="Sök tal"><button id="go" aria-label="Gå"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button></div></div>
-<div id="card" class="glass" hidden></div>
-<div id='lp' class='glass' hidden><div id='lt'><button class='tab on' data-t='tour'>Guide</button><button class='tab' data-t='ex'>Övning</button><button id='lx' aria-label='Stäng'><svg viewBox='0 0 24 24'><path d='M6 6l12 12M18 6 6 18'/></svg></button></div><div id='pg'></div></div>
-<div id="hint">Dra för att flytta · nyp eller skrolla för att zooma · tryck för att centrera</div>
-<div id="tools" class="glass" hidden><button class="sw" data-c="#ff5d5d" style="background:#ff5d5d" aria-label="Röd"></button><button class="sw" data-c="#4da3ff" style="background:#4da3ff" aria-label="Blå"></button><button class="sw" data-c="#3ddc97" style="background:#3ddc97" aria-label="Grön"></button><button class="sw" data-c="#ffd23f" style="background:#ffd23f" aria-label="Gul"></button><i style="width:1px;height:20px;background:var(--edge);margin:0 4px"></i>
-<button id="undo" aria-label="Ångra"><svg viewBox="0 0 24 24"><path d="M9 14 4 9l5-5M4 9h10a6 6 0 0 1 0 12h-3"/></svg></button><button id="clr" aria-label="Rensa"><svg viewBox="0 0 24 24"><path d="M5 7h14M10 7V4h4v3M7 7l1 13h8l1-13"/></svg></button></div>
-<div id="dock" class="glass"><button id="zo" aria-label="Zooma ut"><svg viewBox="0 0 24 24"><path d="M5 12h14"/></svg></button><button id="zi" aria-label="Zooma in"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></button><button id="all" aria-label="Visa hela linjen">0–100</button><i></i><button id="dr"><svg viewBox="0 0 24 24"><path d="M4 20l4-1 11-11-3-3L5 16l-1 4z"/></svg><span>Rita</span></button><button id="ls"><svg viewBox="0 0 24 24"><path d="M4 5.5A1.5 1.5 0 0 1 5.5 4H11v15H5.5A1.5 1.5 0 0 0 4 20.5zM20 5.5A1.5 1.5 0 0 0 18.5 4H13v15h5.5a1.5 1.5 0 0 1 1.5 1.5z"/></svg><span>Lär</span></button></div>
-</main>
-<canvas id="mm"></canvas>
+:root{--bg:#fcfbf9;--bg2:#f4f2ef;--surface:#ffffff;--ink:#26272a;--mute:#6d6f74;--silver:#a3a5aa;--line:#e6e3de;--logo:#646463;--accent:#2d2f33;--accent-ink:#ffffff;--nav:rgba(252,251,249,.9);
+--metal:linear-gradient(100deg,#64666b 0%,#a7a9ae 30%,#c4c6ca 48%,#8d8f94 66%,#55575b 100%);color-scheme:light;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:calc(env(safe-area-inset-top,0px) + 70px)}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.7 Montserrat,"Helvetica Neue",Arial,sans-serif;-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--nav);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);z-index:60}
+.wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+header.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;background:var(--nav);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.nav .wrap{display:flex;justify-content:space-between;align-items:center;height:64px}
+.brand{font-weight:600;letter-spacing:.32em;font-size:14px;color:var(--ink);text-decoration:none}
+.nav nav a{font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--mute);text-decoration:none;margin-left:26px;transition:color .2s}
+.nav nav a:hover{color:var(--ink)}
+.cta{border:1px solid var(--silver);padding:9px 16px;color:var(--ink)!important}
+.hero{position:relative;text-align:center;padding:110px 0 120px;overflow:hidden}
+.hero::before{content:"";position:absolute;inset:0;background:radial-gradient(60% 50% at 50% 30%,var(--surface),transparent 70%),repeating-linear-gradient(90deg,transparent 0 119px,var(--line) 119px 120px);opacity:.55;pointer-events:none;-webkit-mask-image:linear-gradient(#000 40%,transparent);mask-image:linear-gradient(#000 40%,transparent)}
+.hero .wrap{position:relative}
+.wm{font-weight:500;font-size:clamp(50px,14vw,132px);letter-spacing:.12em;padding-left:.12em;line-height:1;background:var(--metal);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;margin:0}
+.sweep{display:block;width:min(100%,760px);height:26px;margin:8px auto 0}
+.sub{font-weight:300;letter-spacing:.7em;padding-left:.7em;font-size:clamp(11px,2.6vw,20px);margin-top:6px;color:var(--ink)}
+.sp{height:clamp(32px,6vw,46px)}
+.btn{display:inline-block;background:var(--accent);color:var(--accent-ink);border:1px solid var(--accent);padding:16px 34px;font:500 11px Montserrat,Arial,sans-serif;letter-spacing:.26em;text-transform:uppercase;text-decoration:none;cursor:pointer;transition:transform .2s,box-shadow .2s}
+.btn:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(0,0,0,.18)}
+.btn.ghost{background:none;color:var(--ink);border-color:var(--silver);margin-left:10px}
+.trust{display:flex;flex-wrap:wrap;justify-content:center;gap:10px 34px;margin-top:64px;font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--mute)}
+.trust span::before{content:"";display:inline-block;width:18px;height:1px;background:var(--silver);vertical-align:middle;margin-right:12px}
+section{padding:96px 0}section.alt{background:var(--bg2)}
+.eyebrow{font-size:11px;letter-spacing:.42em;text-transform:uppercase;color:var(--silver);margin:0 0 14px}
+h2{font-weight:200;font-size:clamp(30px,5vw,46px);line-height:1.15;letter-spacing:.02em;margin:0 0 52px;max-width:640px}
+h3{font-weight:500;font-size:16px;letter-spacing:.06em;margin:0 0 10px}
+.grid{display:grid;gap:22px;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr))}
+.card{background:var(--surface);border:1px solid var(--line);padding:34px 30px;transition:transform .3s,box-shadow .3s,border-color .3s}
+.card:hover{transform:translateY(-4px);box-shadow:0 18px 40px rgba(0,0,0,.1);border-color:var(--silver)}
+.card p{margin:0;color:var(--mute);font-size:15px}
+.ico{width:38px;height:38px;stroke:var(--silver);fill:none;stroke-width:1.4;margin-bottom:22px}
+.about{display:grid;gap:56px;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));align-items:center}
+.about p{color:var(--mute);margin:0 0 18px;font-size:17px;font-weight:300}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line)}
+.stats div{background:var(--surface);padding:30px 24px}
+.stats strong{display:block;font-weight:200;font-size:44px;line-height:1;background:var(--metal);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent}
+.stats small{display:block;margin-top:10px;color:var(--mute);font-size:11px;letter-spacing:.18em;text-transform:uppercase}
+.steps{counter-reset:s;display:grid;gap:22px;grid-template-columns:repeat(auto-fit,minmax(min(100%,210px),1fr))}
+.steps div{counter-increment:s;border-top:1px solid var(--silver);padding-top:20px}
+.steps div::before{content:"0" counter(s);font-weight:200;font-size:32px;color:var(--silver);display:block;margin-bottom:6px}
+.steps p{margin:0;color:var(--mute);font-size:15px}
+.proj{padding:0;overflow:hidden}
+.proj svg{display:block;width:100%;height:auto;transition:transform .6s}
+.proj:hover svg{transform:scale(1.04)}
+.proj .vis{overflow:hidden;background:linear-gradient(160deg,var(--bg2),var(--surface))}
+.proj .t{padding:26px 28px 30px}
+.tag{font-size:10px;letter-spacing:.28em;text-transform:uppercase;color:var(--silver);margin-bottom:8px}
+.note{font-size:12px;color:var(--mute);margin-top:22px}
+.contact{display:grid;gap:56px;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr))}
+.info p{color:var(--mute);font-weight:300;font-size:17px;margin:0 0 28px}
+.info a{display:block;color:var(--ink);text-decoration:none;font-size:20px;font-weight:300;padding:16px 0;border-top:1px solid var(--line);transition:padding .25s}
+.info a:last-of-type{border-bottom:1px solid var(--line)}.info a:hover{padding-left:10px}
+.info small{display:block;font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:var(--silver)}
+form{display:grid;gap:16px;background:var(--surface);border:1px solid var(--line);padding:34px 30px}
+label{font-size:10px;letter-spacing:.26em;text-transform:uppercase;color:var(--mute);display:grid;gap:8px}
+input,select,textarea{font:inherit;font-size:16px;color:var(--ink);background:var(--bg);border:1px solid var(--line);padding:14px;width:100%;border-radius:0;transition:border-color .2s}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--silver);box-shadow:0 0 0 3px rgba(155,157,162,.25)}
+.two{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr))}
+#msg{min-height:24px;font-size:14px;color:var(--mute)}
+footer{background:var(--bg2);padding:56px 0 40px;text-align:center}
+footer .wm{font-size:28px}footer p{color:var(--mute);font-size:11px;letter-spacing:.22em;margin:18px 0 0}
+
+.burger{display:none;background:none;border:1px solid var(--line);width:44px;height:44px;padding:0;cursor:pointer;position:relative}
+.burger span{position:absolute;left:12px;right:12px;height:1.5px;background:var(--ink);transition:transform .25s,top .25s}
+.burger span:first-child{top:17px}.burger span:last-child{top:25px}
+.burger[aria-expanded=true] span:first-child{top:21px;transform:rotate(45deg)}.burger[aria-expanded=true] span:last-child{top:21px;transform:rotate(-45deg)}
+.mbar{display:none}
+@media(max-width:760px){
+.burger{display:block}
+.nav nav{position:absolute;top:100%;left:0;right:0;background:var(--surface);border-bottom:1px solid var(--line);display:none;flex-direction:column;padding:6px 24px 22px;box-shadow:0 18px 30px rgba(0,0,0,.06)}
+.nav nav.open{display:flex}
+.nav nav a{margin:0;padding:17px 0;border-bottom:1px solid var(--line);font-size:12px}
+.nav nav a.cta{border:1px solid var(--silver);text-align:center;margin-top:16px;padding:15px}
+.hero{padding:60px 0 72px}
+.btn,.btn.ghost{display:block;margin:0 0 12px;text-align:center}
+.trust{margin-top:44px;gap:10px 22px;font-size:10px}
+section{padding:64px 0}h2{margin-bottom:34px}
+.card{padding:28px 24px}.stats strong{font-size:36px}.stats div{padding:24px 18px}
+.about p,.info p{font-size:16px}.info a{font-size:17px;word-break:break-all}
+form{padding:26px 20px}.steps{gap:30px}
+.mbar{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:55;gap:10px;background:var(--nav);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-top:1px solid var(--line);padding:10px 16px calc(10px + env(safe-area-inset-bottom,0px))}
+.mbar a{flex:1;text-align:center;padding:14px 8px;font-size:11px;letter-spacing:.2em;text-transform:uppercase;text-decoration:none;border:1px solid var(--silver);color:var(--ink)}
+.mbar a.p{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+footer{padding-bottom:90px}
+}
+.hero::before{opacity:.35}
+.logo{margin:0;line-height:0}.logo svg{display:inline-block;width:min(88%,540px);height:auto;color:var(--logo)}
+.brand{line-height:0}.brand svg{height:34px;width:auto;display:block;color:var(--logo)}
+footer .flogo{height:56px;width:auto;color:var(--logo)}
+.hp{position:absolute;left:-9999px}
+.rv{opacity:0;transform:translateY(22px);transition:opacity .8s,transform .8s}.rv.in{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none}html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="rlogo" viewBox="0 0 588.1776 177.4346"><g fill="currentColor" fill-rule="evenodd"><path d="M 135.714844 160.152344 L 135.714844 138.453125 L 143.265625 138.453125 C 145.527344 138.453125 147.269531 138.894531 148.492188 139.78125 C 149.714844 140.664062 150.328125 141.984375 150.328125 143.738281 C 150.328125 144.816406 150.054688 145.800781 149.515625 146.6875 C 148.976562 147.574219 148.175781 148.230469 147.117188 148.660156 L 147.117188 148.691406 C 148.421875 149.015625 149.464844 149.652344 150.25 150.597656 C 151.035156 151.546875 151.425781 152.746094 151.425781 154.191406 C 151.425781 155.984375 150.820312 157.425781 149.609375 158.515625 C 148.394531 159.605469 146.628906 160.152344 144.304688 160.152344 Z M 441.980469 160.152344 L 441.980469 141.75 L 435.839844 141.75 L 435.839844 138.453125 L 451.914062 138.453125 L 451.914062 141.75 L 445.679688 141.75 L 445.679688 160.152344 Z M 412.042969 160.152344 L 412.042969 138.453125 L 415.738281 138.453125 L 415.738281 156.847656 L 425.796875 156.847656 L 425.796875 160.152344 Z M 388.796875 160.394531 C 386.1875 160.394531 384.101562 159.585938 382.535156 157.964844 C 380.964844 156.347656 380.179688 154.097656 380.179688 151.226562 L 380.179688 138.453125 L 383.847656 138.453125 L 383.847656 150.949219 C 383.847656 152.722656 384.289062 154.160156 385.175781 155.261719 C 386.0625 156.359375 387.269531 156.910156 388.796875 156.910156 C 390.285156 156.910156 391.488281 156.378906 392.40625 155.308594 C 393.320312 154.238281 393.78125 152.785156 393.78125 150.949219 L 393.78125 138.453125 L 397.480469 138.453125 L 397.480469 151.226562 C 397.480469 154.058594 396.703125 156.292969 395.15625 157.933594 C 393.609375 159.574219 391.488281 160.394531 388.796875 160.394531 Z M 359.316406 160.394531 C 356.28125 160.394531 353.664062 159.253906 351.464844 156.972656 L 353.785156 154.128906 C 354.539062 155.046875 355.414062 155.75 356.414062 156.238281 C 357.414062 156.726562 358.390625 156.972656 359.347656 156.972656 C 360.511719 156.972656 361.402344 156.738281 362.023438 156.269531 C 362.644531 155.800781 362.953125 155.160156 362.953125 154.34375 C 362.953125 153.46875 362.648438 152.804688 362.039062 152.355469 C 361.429688 151.910156 360.335938 151.410156 358.769531 150.859375 C 357.769531 150.515625 356.949219 150.183594 356.308594 149.867188 C 355.667969 149.550781 354.992188 149.140625 354.292969 148.628906 C 353.585938 148.121094 353.0625 147.503906 352.71875 146.78125 C 352.371094 146.058594 352.199219 145.214844 352.199219 144.257812 C 352.199219 142.566406 352.871094 141.136719 354.214844 139.964844 C 355.558594 138.792969 357.179688 138.207031 359.074219 138.207031 C 361.621094 138.207031 364.015625 139.089844 366.257812 140.863281 L 364.058594 143.769531 C 362.261719 142.28125 360.601562 141.539062 359.074219 141.539062 C 358.199219 141.539062 357.472656 141.761719 356.90625 142.210938 C 356.332031 142.65625 356.039062 143.28125 356.019531 144.074219 C 356.019531 144.460938 356.089844 144.792969 356.230469 145.066406 C 356.375 145.34375 356.664062 145.613281 357.101562 145.875 C 357.539062 146.140625 357.9375 146.351562 358.292969 146.503906 C 358.652344 146.65625 359.246094 146.894531 360.082031 147.222656 C 362.324219 148.097656 363.800781 148.78125 364.515625 149.269531 C 366.042969 150.351562 366.808594 151.890625 366.808594 153.886719 C 366.808594 155.964844 366.046875 157.570312 364.527344 158.699219 C 363.011719 159.832031 361.273438 160.394531 359.316406 160.394531 Z M 319.933594 160.152344 L 319.933594 138.453125 L 323.601562 138.453125 L 334.207031 154.039062 L 334.269531 154.039062 L 334.269531 138.453125 L 337.9375 138.453125 L 337.9375 160.152344 L 334.179688 160.152344 L 323.695312 144.839844 L 323.632812 144.839844 L 323.632812 160.152344 Z M 295.070312 160.394531 C 291.828125 160.394531 289.191406 159.351562 287.152344 157.261719 C 285.117188 155.175781 284.097656 152.519531 284.097656 149.300781 C 284.097656 146.082031 285.117188 143.425781 287.152344 141.339844 C 289.191406 139.25 291.828125 138.207031 295.070312 138.207031 C 298.226562 138.207031 300.839844 139.234375 302.910156 141.292969 C 304.976562 143.351562 306.011719 146.019531 306.011719 149.300781 C 306.011719 152.582031 304.976562 155.25 302.910156 157.308594 C 300.839844 159.367188 298.226562 160.394531 295.070312 160.394531 Z M 295.070312 156.941406 C 297.085938 156.941406 298.773438 156.21875 300.128906 154.773438 C 301.484375 153.324219 302.160156 151.503906 302.160156 149.300781 C 302.160156 147.078125 301.484375 145.25 300.128906 143.8125 C 298.773438 142.378906 297.085938 141.660156 295.070312 141.660156 C 292.96875 141.660156 291.253906 142.394531 289.917969 143.863281 C 288.585938 145.328125 287.917969 147.140625 287.917969 149.300781 C 287.917969 151.460938 288.585938 153.273438 289.917969 154.742188 C 291.253906 156.207031 292.96875 156.941406 295.070312 156.941406 Z M 257.335938 160.152344 L 257.335938 138.453125 L 261.035156 138.453125 L 261.035156 148.84375 L 261.09375 148.84375 L 269.410156 138.453125 L 274.113281 138.453125 L 265.953125 148.136719 L 274.363281 160.152344 L 269.777344 160.152344 L 263.511719 151.074219 L 261.035156 154.007812 L 261.035156 160.152344 Z M 234.519531 160.335938 C 231.320312 160.335938 228.695312 159.339844 226.648438 157.355469 C 224.601562 155.367188 223.578125 152.691406 223.578125 149.332031 C 223.578125 146.070312 224.558594 143.402344 226.527344 141.324219 C 228.492188 139.246094 231.117188 138.207031 234.394531 138.207031 C 235.964844 138.207031 237.492188 138.507812 238.980469 139.109375 C 240.46875 139.707031 241.761719 140.597656 242.859375 141.78125 L 240.265625 144.042969 C 238.65625 142.476562 236.6875 141.691406 234.367188 141.691406 C 232.367188 141.691406 230.710938 142.390625 229.398438 143.785156 C 228.082031 145.179688 227.425781 147.027344 227.425781 149.332031 C 227.425781 151.53125 228.074219 153.355469 229.367188 154.804688 C 230.660156 156.25 232.378906 156.972656 234.519531 156.972656 C 236.292969 156.972656 237.902344 156.492188 239.347656 155.535156 L 239.347656 151.867188 L 234.03125 151.867188 L 234.03125 148.566406 L 243.015625 148.566406 L 243.015625 157.613281 C 242.015625 158.449219 240.761719 159.109375 239.253906 159.601562 C 237.746094 160.089844 236.167969 160.335938 234.519531 160.335938 Z M 201.738281 160.335938 C 198.535156 160.335938 195.914062 159.339844 193.867188 157.355469 C 191.816406 155.367188 190.792969 152.691406 190.792969 149.332031 C 190.792969 146.070312 191.777344 143.402344 193.742188 141.324219 C 195.710938 139.246094 198.332031 138.207031 201.613281 138.207031 C 203.183594 138.207031 204.710938 138.507812 206.199219 139.109375 C 207.683594 139.707031 208.980469 140.597656 210.078125 141.78125 L 207.480469 144.042969 C 205.871094 142.476562 203.90625 141.691406 201.582031 141.691406 C 199.585938 141.691406 197.929688 142.390625 196.617188 143.785156 C 195.300781 145.179688 194.644531 147.027344 194.644531 149.332031 C 194.644531 151.53125 195.289062 153.355469 196.585938 154.804688 C 197.878906 156.25 199.597656 156.972656 201.738281 156.972656 C 203.507812 156.972656 205.117188 156.492188 206.5625 155.535156 L 206.5625 151.867188 L 201.246094 151.867188 L 201.246094 148.566406 L 210.230469 148.566406 L 210.230469 157.613281 C 209.234375 158.449219 207.980469 159.109375 206.472656 159.601562 C 204.964844 160.089844 203.386719 160.335938 201.738281 160.335938 Z M 169.902344 160.152344 L 169.902344 150.554688 L 162.660156 138.453125 L 166.875 138.453125 L 171.734375 146.855469 L 171.796875 146.855469 L 176.628906 138.453125 L 180.90625 138.453125 L 173.601562 150.554688 L 173.601562 160.152344 Z M 139.414062 147.4375 L 142.992188 147.4375 C 145.375 147.4375 146.566406 146.480469 146.566406 144.5625 C 146.566406 143.6875 146.257812 142.992188 145.636719 142.484375 C 145.011719 141.976562 144.089844 141.722656 142.867188 141.722656 L 139.414062 141.75 Z M 139.414062 156.847656 L 143.84375 156.847656 C 145.027344 156.847656 145.945312 156.589844 146.597656 156.070312 C 147.25 155.550781 147.574219 154.792969 147.574219 153.792969 C 147.574219 152.816406 147.207031 152.039062 146.472656 151.472656 C 145.742188 150.902344 144.671875 150.617188 143.265625 150.617188 L 139.414062 150.617188 Z M 139.414062 156.847656 "/><path d="M 17.253906 119.128906 L 570.375 119.128906 L 570.375 123.914062 L 17.253906 123.914062 Z M 17.253906 119.128906 "/><path d="M 80.878906 104.839844 L 67.847656 104.839844 L 45.542969 71.203125 L 28.871094 71.203125 L 28.871094 104.839844 L 18.074219 104.839844 L 18.074219 16.714844 L 49.351562 16.714844 C 59.117188 16.714844 66.417969 19.195312 71.261719 24.160156 C 76.101562 29.125 78.523438 35.746094 78.523438 44.019531 C 78.523438 51.300781 76.679688 57.136719 72.996094 61.519531 C 69.316406 65.90625 64.164062 68.804688 57.542969 70.210938 L 57.542969 70.332031 Z M 530.726562 29.871094 L 530.5 29.890625 L 503.152344 104.839844 L 491.730469 104.839844 L 525.121094 16.714844 L 535.917969 16.714844 L 569.554688 104.839844 L 558.136719 104.839844 Z M 466.222656 104.839844 L 453.191406 104.839844 L 430.890625 71.203125 L 414.214844 71.203125 L 414.214844 104.839844 L 403.417969 104.839844 L 403.417969 16.714844 L 434.695312 16.714844 C 444.460938 16.714844 451.761719 19.195312 456.605469 24.160156 C 461.445312 29.125 463.867188 35.746094 463.867188 44.019531 C 463.867188 51.300781 462.023438 57.136719 458.34375 61.519531 C 454.660156 65.90625 449.507812 68.804688 442.886719 70.210938 L 442.886719 70.332031 Z M 414.214844 26.644531 L 414.214844 61.273438 L 431.839844 61.273438 C 438.875 61.273438 444.109375 59.679688 447.542969 56.496094 C 450.976562 53.308594 452.695312 49.066406 452.695312 43.769531 C 452.695312 38.230469 450.996094 33.988281 447.605469 31.050781 C 444.210938 28.109375 439.453125 26.644531 433.332031 26.644531 Z M 313.488281 104.839844 L 313.488281 16.714844 L 367.484375 16.714844 L 367.484375 26.644531 L 324.414062 26.644531 L 324.414062 56.0625 L 359.789062 56.0625 L 359.789062 65.992188 L 324.414062 65.992188 L 324.414062 94.910156 L 370.089844 94.910156 L 370.089844 104.839844 Z M 263.898438 104.839844 L 263.898438 16.714844 L 274.824219 16.714844 L 274.824219 104.839844 Z M 221.261719 16.714844 L 232.933594 16.714844 L 199.667969 104.839844 L 189.984375 104.839844 L 156.71875 16.714844 L 168.386719 16.714844 L 194.617188 89.367188 L 194.867188 89.367188 Z M 114.328125 104.839844 L 114.328125 16.714844 L 125.253906 16.714844 L 125.253906 104.839844 Z M 28.871094 26.644531 L 28.871094 61.273438 L 46.496094 61.273438 C 53.53125 61.273438 58.765625 59.679688 62.199219 56.496094 C 65.632812 53.308594 67.347656 49.066406 67.347656 43.769531 C 67.347656 38.230469 65.652344 33.988281 62.261719 31.050781 C 58.867188 28.109375 54.109375 26.644531 47.988281 26.644531 Z M 28.871094 26.644531 "/></g></symbol></svg>
+<header class="nav"><div class="wrap"><a class="brand" href="#top" aria-label="Riviera Byggkonsult"><svg viewBox="0 0 588.1776 177.4346"><use href="#rlogo"/></svg></a>
+<button class="burger" aria-label="Meny" aria-expanded="false"><span></span><span></span></button>
+<nav id="menu"><a href="#tjanster">Tjänster</a><a href="#om">Om oss</a><a href="#projekt">Projekt</a><a class="cta" href="#kontakt">Kontakt</a></nav></div></header>
+
+<header class="hero" id="top"><div class="wrap">
+<h1 class="logo" aria-label="Riviera Byggkonsult"><svg viewBox="0 0 588.1776 177.4346" role="img"><use href="#rlogo"/></svg></h1>
+<div class="sp"></div>
+<a class="btn" href="#kontakt">Begär offert</a><a class="btn ghost" href="#projekt">Se projekt</a>
+<div class="trust"><span>Oberoende</span><span>Tydlig kommunikation</span><span>Fast kontaktperson</span></div>
+</div></header>
+
+<section id="tjanster"><div class="wrap">
+<p class="eyebrow rv">Tjänster</p><h2 class="rv">Trygg styrning av hela byggprocessen</h2>
+<div class="grid">
+<div class="card rv"><svg class="ico" viewBox="0 0 40 40"><path d="M6 32V8h28M6 32h28M12 26l7-8 6 5 9-12"/></svg><h3>Projektledning</h3><p>Samordning av entreprenörer, tidplan och budget så att projektet håller hela vägen.</p></div>
+<div class="card rv"><svg class="ico" viewBox="0 0 40 40"><path d="M6 34h28M10 34V14l10-8 10 8v20M16 34V22h8v12"/></svg><h3>Byggledning</h3><p>Närvaro på plats, kvalitetskontroll och uppföljning under hela byggskedet.</p></div>
+<div class="card rv"><svg class="ico" viewBox="0 0 40 40"><path d="M8 6h20l4 4v24H8zM14 16h12M14 22h12M14 28h7"/></svg><h3>Kontrollansvarig</h3><p>Kontroll enligt plan- och bygglagen, med stöd genom bygglov, startbesked och slutbesked.</p></div>
+<div class="card rv"><svg class="ico" viewBox="0 0 40 40"><circle cx="17" cy="17" r="10"/><path d="M25 25l10 10M13 17l3 3 6-7"/></svg><h3>Rådgivning &amp; besiktning</h3><p>Oberoende bedömning inför köp, renovering eller ombyggnad.</p></div>
+</div></div></section>
+
+<section class="alt" id="om"><div class="wrap">
+<p class="eyebrow rv">Om företaget</p><h2 class="rv">Byggkompetens med personligt ansvar</h2>
+<div class="about"><div class="rv">
+<p>Riviera Byggkonsult hjälper privatpersoner, bostadsrättsföreningar och fastighetsägare att genomföra byggprojekt med trygghet och god kontroll.</p>
+<p>Vi arbetar nära våra kunder, är tydliga med vad som gäller och tar ansvar för resultatet. Alltid kort väg från fråga till beslut.</p></div>
+<div class="stats rv"><div><strong>10+</strong><small>års erfarenhet</small></div><div><strong>100+</strong><small>genomförda uppdrag</small></div><div><strong>1</strong><small>fast kontaktperson</small></div><div><strong>100%</strong><small>fokus på kvalitet</small></div></div></div>
+<p class="note">Siffrorna är platshållare – byt till era egna.</p>
+<div class="steps" style="margin-top:72px">
+<div class="rv"><h3>Samtal</h3><p>Vi går igenom era mål, förutsättningar och budget.</p></div>
+<div class="rv"><h3>Upplägg</h3><p>Tydlig plan med tidplan, ansvar och riskbedömning.</p></div>
+<div class="rv"><h3>Genomförande</h3><p>Löpande ledning och kontroll på plats.</p></div>
+<div class="rv"><h3>Överlämning</h3><p>Slutbesiktning, dokumentation och trygg överlämning.</p></div></div>
+</div></section>
+
+<section id="projekt"><div class="wrap">
+<p class="eyebrow rv">Utvalda projekt</p><h2 class="rv">Exempel på uppdrag vi genomfört</h2>
+<div class="grid">
+<div class="card proj rv"><div class="vis"><svg viewBox="0 0 400 220" fill="none" stroke="var(--silver)" stroke-width="1.5"><path d="M0 190h400" stroke="var(--line)"/><path d="M80 190V100l70-50 70 50v90zM220 190V120h90v70M110 190v-45h30v45M250 150h25v25h-25z"/><path d="M80 100h140M150 50v50" opacity=".5"/></svg></div><div class="t"><div class="tag">Nybyggnation</div><h3>Villa, Göteborg</h3><p>Projektledning och kontrollansvarig för en nyproducerad villa på 180 m².</p></div></div>
+<div class="card proj rv"><div class="vis"><svg viewBox="0 0 400 220" fill="none" stroke="var(--silver)" stroke-width="1.5"><path d="M0 190h400" stroke="var(--line)"/><path d="M110 190V40h180v150M110 80h180M110 120h180M110 160h180M150 40v150M190 40v150M230 40v150M270 40v150" opacity=".85"/><path d="M60 190V110h50M290 110h50v80" opacity=".5"/></svg></div><div class="t"><div class="tag">Ombyggnad</div><h3>Flerbostadshus, Mölndal</h3><p>Byggledning vid stambyte och fasadrenovering för en bostadsrättsförening.</p></div></div>
+<div class="card proj rv"><div class="vis"><svg viewBox="0 0 400 220" fill="none" stroke="var(--silver)" stroke-width="1.5"><path d="M0 190h400" stroke="var(--line)"/><path d="M60 190v-70l50-38 50 38v70zM160 190v-55h150v55M160 135l75-40 75 40M200 190v-30h30v30M255 150h30v25h-30z"/><path d="M160 135v55" stroke-dasharray="4 4"/></svg></div><div class="t"><div class="tag">Tillbyggnad</div><h3>Tillbyggnad, Kungsbacka</h3><p>Bygglovshantering och kontroll vid tillbyggnad med nytt kök och vardagsrum.</p></div></div>
+</div><p class="note">Exempelprojekt – ersätt med era verkliga referenser och bilder.</p></div></section>
+
+<section class="alt" id="kontakt"><div class="wrap">
+<p class="eyebrow rv">Kontakt</p><h2 class="rv">Berätta om ert projekt</h2>
+<div class="contact"><div class="info rv"><p>Skicka en förfrågan eller ring direkt, så återkommer vi inom en arbetsdag.</p>
+<a href="tel:+46702812647"><small>Telefon</small>070-281 26 47</a>
+<a href="mailto:bjorn@rivierabyggkonsult.se"><small>E-post</small>bjorn@rivierabyggkonsult.se</a></div>
+<form id="f" class="rv">
+<div class="two"><label>Namn<input name="name" required autocomplete="name"></label><label>E-post<input name="email" type="email" required autocomplete="email"></label></div>
+<div class="two"><label>Telefon<input name="phone" type="tel" autocomplete="tel"></label>
+<label>Typ av uppdrag<select name="kind"><option>Projektledning</option><option>Byggledning</option><option>Kontrollansvarig</option><option>Rådgivning / besiktning</option><option>Annat</option></select></label></div>
+<label>Meddelande<textarea name="text" rows="5"></textarea></label>
+<input class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+<button class="btn" type="submit">Skicka förfrågan</button><div id="msg" role="status"></div></form></div>
+</div></section>
+
+<div class="mbar"><a href="tel:+46702812647">Ring</a><a class="p" href="#kontakt">Begär offert</a></div>
+<footer><div class="wrap"><svg class="flogo" viewBox="0 0 588.1776 177.4346" role="img" aria-label="Riviera Byggkonsult"><use href="#rlogo"/></svg><p>© 2026 RIVIERA BYGGKONSULT</p></div></footer>
+
 <script>
-const $=s=>document.querySelector(s);
-const C=[
-['1/3',1/3,'En tredjedel: 0,333… med oändligt många treor.'],
-['2/3',2/3,'Två tredjedelar: 0,666… utan slut.'],
-['γ',0.5772156649,'Euler–Mascheronis konstant, nära kopplad till harmoniska serien.'],
-['ln 2',Math.LN2,'Naturliga logaritmen av 2.'],
-['√2',Math.SQRT2,'Diagonalen i en kvadrat med sidan 1. Första kända irrationella talet.'],
-['ζ(3)',1.2020569032,'Apérys konstant, summan av 1/n³.'],
-['φ',(1+Math.sqrt(5))/2,'Gyllene snittet.'],
-['e',Math.E,'Basen för naturliga logaritmer.'],
-['π',Math.PI,'Omkretsen delad med diametern.'],
-['√10',Math.sqrt(10),'Kvadratroten ur tio.'],
-['τ',2*Math.PI,'Hela varvet i radianer, 2π.'],
-['δ',4.6692016091,'Feigenbaums konstant, kaosteorins signatur.'],
-['e^π',Math.exp(Math.PI),'Gelfonds konstant, ovanligt nära ett heltal.'],
-['42',42,'Svaret på allt, enligt Liftarens guide till galaxen.'],
-['√5000',Math.sqrt(5000),'Ungefär 70,71, där √2 möter hundratal.']
-].map(([n,v,x])=>({n,v,x}));
-const LV=[{u:10,d:0,h:30},{u:1,d:0,h:22},{u:.1,d:1,h:16},{u:.01,d:2,h:11},{u:.001,d:3,h:7}],FS=[14,13,11.5,10.5,10],MONO='"JetBrains Mono",ui-monospace,monospace';
-const cv=$('#cv'),ctx=cv.getContext('2d'),mm=$('#mm'),mx=mm.getContext('2d'),MAXP=2.5e5;
-let W=1,H=1,MW=1,MH=1,dpr=1,view={c:50,p:1},sel=null,hits=[],anim=null,raf=0,init=0,drawing=false,strokes=[],cur=null,pen='#ff5d5d',found=null,ex=null,mark=null,ti=0,exKind='find',exLv=0;
-const css=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
-const cl=(v,a,b)=>Math.min(b,Math.max(a,v)),minP=()=>W/106,fm=(v,d)=>v.toFixed(d).replace('.',','),nf=(v,p)=>{let s=fm(v,cl(Math.floor(Math.log10(p)),0,5));if(s.includes(','))s=s.replace(/0+$/,'').replace(/,$/,'');return s};
-const X=v=>W/2+(v-view.c)*view.p,V=x=>view.c+(x-W/2)/view.p;
-const AY=()=>Math.round(H*(innerWidth<900&&!$('#lp').hidden?.3:.6)),fade=x=>1-.85*Math.pow(Math.min(1,Math.abs(x-W/2)/(W/2)),2);
-function clampV(){view.p=cl(view.p,minP(),MAXP);view.c=cl(view.c,0,100)}
-function size(){dpr=devicePixelRatio||1;for(const c of[cv,mm]){const r=c.getBoundingClientRect();c.width=Math.round(r.width*dpr);c.height=Math.round(r.height*dpr)}
-W=cv.clientWidth;H=cv.clientHeight;MW=mm.clientWidth;MH=mm.clientHeight;if(!init&&W>1){init=1;view.p=minP()}clampV();draw()}
-function rr(c,x,y,w,h,r){c.beginPath();c.roundRect?c.roundRect(x,y,w,h,r):c.rect(x,y,w,h)}
-function draw(){
-const ink=css('--ink'),mut=css('--mut'),ed=css('--edge'),pc=css('--pill'),acc=css('--acc'),ac2=css('--acc2');
-const p=view.p,ay=AY(),v0=V(0),v1=V(W),xa=X(0),xb=X(100);
-ctx.setTransform(dpr,0,0,dpr,0,0);ctx.clearRect(0,0,W,H);ctx.textBaseline='top';ctx.textAlign='center';ctx.lineCap='butt';
-ctx.lineWidth=1;ctx.strokeStyle=ed;ctx.setLineDash([2,6]);ctx.beginPath();ctx.moveTo(0,ay);ctx.lineTo(W,ay);ctx.stroke();ctx.setLineDash([]);
-const a0=Math.max(0,xa),a1=Math.min(W,xb);if(a1>a0){ctx.strokeStyle=ink;ctx.globalAlpha=.85;ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(a0,ay);ctx.lineTo(a1,ay);ctx.stroke();ctx.globalAlpha=1}
-const LC=[ink,ink,ink,ac2,acc],LA=[1,.8,.5,.85,.95];
-for(let i=0;i<5;i++){const L=LV[i],px=L.u*p;if(px<7)continue;
-const ta=cl((px-7)/18,0,1),la=i?cl((px-30)/20,0,1):1;
-const k0=Math.max(0,Math.ceil(v0/L.u)),k1=Math.min(Math.round(100/L.u),Math.floor(v1/L.u));
-for(let k=k0;k<=k1;k++){if(i&&k%10==0)continue;
-const v=L.u>=1?k*L.u:k/Math.round(1/L.u),x=X(v),e=i?fade(x):1;
-if(i<4){ctx.globalAlpha=.06*ta*e;ctx.strokeStyle=ink;ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,ay);ctx.stroke()}
-ctx.globalAlpha=ta*e*LA[i];ctx.strokeStyle=LC[i];ctx.lineWidth=i?1:1.6;ctx.beginPath();ctx.moveTo(x,ay);ctx.lineTo(x,ay+L.h);ctx.stroke();
-if(la>0){ctx.globalAlpha=la*e*LA[i];ctx.fillStyle=LC[i];ctx.font=(i<2?'500 ':'400 ')+FS[i]+'px '+MONO;ctx.fillText(fm(v,L.d),x,ay+L.h+7)}}}
-ctx.globalAlpha=1;hits=[];
-const ca=ex?0:cl((p-15)/45,0,1);
-if(ca>0||sel){ctx.font='600 12.5px system-ui,sans-serif';const lanes=[],pl=[],Lm=Math.max(1,Math.min(4,Math.floor((ay-(W<520?190:130)-26)/30)));
-for(const o of C){const x=X(o.v);if(x<-90||x>W+90)continue;
-const lab=o.n+(p>300?'  '+nf(o.v,p):''),w=ctx.measureText(lab).width+30;let L=-1;
-for(let l=0;l<Lm;l++){const a=lanes[l]||(lanes[l]=[]);if(a.every(r=>x-w/2>r[1]+4||x+w/2<r[0]-4)){a.push([x-w/2,x+w/2]);L=l;break}}
-if(L>=0)pl.push({o,x,w,L,lab})}
-for(const q of pl){const y=ay-54-q.L*30,al=(q.o===sel?1:ca)*fade(q.x);if(al<=.01)continue;const on=q.o===sel;
-ctx.globalAlpha=al*.45;ctx.strokeStyle=ac2;ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(q.x,ay-6);ctx.lineTo(q.x,y+26);ctx.stroke();
-ctx.globalAlpha=al;rr(ctx,q.x-q.w/2,y,q.w,26,13);ctx.fillStyle=pc;ctx.fill();ctx.strokeStyle=on?ac2:ed;ctx.lineWidth=on?2:1;ctx.stroke();
-ctx.beginPath();ctx.arc(q.x-q.w/2+13,y+13,3,0,7);ctx.fillStyle=ac2;ctx.fill();
-ctx.fillStyle=ink;ctx.fillText(q.lab,q.x+7,y+6);
-ctx.beginPath();ctx.arc(q.x,ay,5,0,7);ctx.fillStyle=pc;ctx.fill();ctx.strokeStyle=ac2;ctx.lineWidth=2;ctx.stroke();ctx.beginPath();ctx.arc(q.x,ay,1.8,0,7);ctx.fillStyle=ac2;ctx.fill();
-hits.push({x:q.x-q.w/2,y,w:q.w,h:26,o:q.o},{x:q.x-10,y:ay-10,w:20,h:20,o:q.o})}
-ctx.globalAlpha=1}
-if(mark!==null){const xm=X(mark);if(xm>-30&&xm<W+30){ctx.setLineDash([4,3]);ctx.strokeStyle=acc;ctx.lineWidth=2;ctx.beginPath();ctx.arc(xm,ay,11,0,7);ctx.stroke();ctx.setLineDash([]);ctx.fillStyle=acc;ctx.font='600 15px system-ui,sans-serif';ctx.fillText('?',xm,ay-36)}}
-if(found!==null){const fx=X(found);if(fx>-30&&fx<W+30){ctx.strokeStyle=acc;ctx.lineWidth=2;ctx.beginPath();ctx.arc(fx,ay,9,0,7);ctx.stroke();ctx.globalAlpha=.3;ctx.beginPath();ctx.arc(fx,ay,15,0,7);ctx.stroke();ctx.globalAlpha=1}}
-ctx.lineCap='round';ctx.lineJoin='round';ctx.lineWidth=3;
-for(const s of strokes){if(X(s.b)<-20||X(s.a)>W+20)continue;ctx.strokeStyle=s.c;ctx.fillStyle=s.c;
-if(s.pts.length<2){ctx.beginPath();ctx.arc(X(s.pts[0][0]),ay+s.pts[0][1]*p,2,0,7);ctx.fill();continue}
-ctx.beginPath();s.pts.forEach(([v,y],i)=>{const x=X(v),yy=ay+y*p;i?ctx.lineTo(x,yy):ctx.moveTo(x,yy)});ctx.stroke()}
-ctx.lineCap='butt';
-const g=ctx.createLinearGradient(0,H*.14,0,ay+46);g.addColorStop(0,'transparent');g.addColorStop(.55,acc);g.addColorStop(1,'transparent');
-ctx.globalAlpha=.75;ctx.strokeStyle=g;ctx.lineWidth=1.2;ctx.beginPath();ctx.moveTo(W/2,H*.14);ctx.lineTo(W/2,ay+46);ctx.stroke();ctx.globalAlpha=1;
-ctx.shadowColor=acc;ctx.shadowBlur=18;ctx.fillStyle=acc;ctx.beginPath();ctx.arc(W/2,ay,4.5,0,7);ctx.fill();ctx.shadowBlur=0;
-const w=W/p;let lv=0;for(let i=0;i<5;i++)if(LV[i].u*p>=40)lv=i;$('#lvl').textContent='●'.repeat(lv+1)+'○'.repeat(4-lv)+'  '+LN[lv];if(ex&&ex.kind=='find'&&!ex.done&&Math.abs(view.c-ex.t)<=.5/ex.s&&p>=40*ex.s)win();if(ex&&ex.kind=='between'&&!ex.done&&view.c>ex.a&&view.c<ex.b&&p>=ex.need)win2();
-$('#bv').textContent=nf(view.c,p);$('#bs').textContent='synlig bredd '+(w>=10?w.toFixed(0):w.toPrecision(2)).replace('.',',');
-mini()}
-function mini(){const mut=css('--mut'),acc=css('--acc'),ac2=css('--acc2'),ed=css('--edge');
-mx.setTransform(dpr,0,0,dpr,0,0);mx.clearRect(0,0,MW,MH);
-const f=v=>16+v/100*(MW-32),mid=22;mx.lineCap='round';mx.strokeStyle=ed;mx.lineWidth=4;mx.beginPath();mx.moveTo(f(0),mid);mx.lineTo(f(100),mid);mx.stroke();
-mx.font='10px '+MONO;mx.textBaseline='top';mx.textAlign='center';mx.fillStyle=mut;
-for(let v=0;v<=100;v+=10)mx.fillText(v,f(v),mid+12);
-for(const o of C){mx.beginPath();mx.arc(f(o.v),mid,2.5,0,7);mx.fillStyle=ac2;mx.fill()}
-const x1=f(cl(V(0),0,100)),x2=f(cl(V(W),0,100)),ww=Math.max(10,x2-x1);rr(mx,x1,mid-10,ww,20,10);mx.globalAlpha=.2;mx.fillStyle=acc;mx.fill();mx.globalAlpha=1;mx.strokeStyle=acc;mx.lineWidth=1.5;mx.stroke()}
-function zoomAt(f,x){if(drawing)return;const t=V(x);view.p=cl(view.p*f,minP(),MAXP);view.c=cl(t-(x-W/2)/view.p,0,100)}
-function go(c,p){if(drawing)return;anim={c:cl(c,0,100),p:cl(p,minP(),MAXP)};if(!raf)raf=requestAnimationFrame(step)}
-function step(){raf=0;if(!anim)return;const k=.2;view.c+=(anim.c-view.c)*k;view.p*=Math.pow(anim.p/view.p,k);
-if(Math.abs(Math.log(anim.p/view.p))<.003&&Math.abs(anim.c-view.c)*view.p<.5){view.c=anim.c;view.p=anim.p;anim=null}
-clampV();draw();if(anim)raf=requestAnimationFrame(step)}
-function select(o){sel=o;const cd=$('#card');if(!o){cd.hidden=true;draw();return}
-cd.hidden=false;cd.innerHTML='';const b=document.createElement('b');b.textContent=o.n+' ≈ '+fm(o.v,10);const d=document.createElement('p');d.textContent=o.x;
-const r=document.createElement('div');r.className='r';const z=document.createElement('button');z.textContent='Zooma hit';z.onclick=()=>go(o.v,Math.max(view.p,20000));
-const x=document.createElement('button');x.textContent='Stäng';x.onclick=()=>select(null);r.append(z,x);cd.append(b,d,r);go(o.v,Math.max(view.p,400));draw()}
-const ptr=new Map();let moved=0,pinch=null;
-const lx=e=>e.clientX-cv.getBoundingClientRect().left,ly=e=>e.clientY-cv.getBoundingClientRect().top;
-cv.onpointerdown=e=>{cv.setPointerCapture(e.pointerId);anim=null;if(drawing){if(!cur){const v=V(lx(e));cur={c:pen,pts:[[v,(ly(e)-AY())/view.p]],a:v,b:v};strokes.push(cur);draw()}return}
-ptr.set(e.pointerId,{x:lx(e),y:ly(e)});moved=0;cv.style.cursor='grabbing';
-if(ptr.size==2){const[a,b]=[...ptr.values()];pinch={d:Math.hypot(a.x-b.x,a.y-b.y),m:(a.x+b.x)/2}}};
-cv.onpointermove=e=>{if(drawing){if(cur){const v=V(lx(e));cur.pts.push([v,(ly(e)-AY())/view.p]);cur.a=Math.min(cur.a,v);cur.b=Math.max(cur.b,v);draw()}return}const o=ptr.get(e.pointerId);if(!o)return;const x=lx(e),y=ly(e);
-if(ptr.size==1){view.c-=(x-o.x)/view.p;moved+=Math.abs(x-o.x)+Math.abs(y-o.y)}
-o.x=x;o.y=y;
-if(ptr.size==2&&pinch){const[a,b]=[...ptr.values()],d=Math.hypot(a.x-b.x,a.y-b.y),m=(a.x+b.x)/2;zoomAt(d/pinch.d,m);view.c-=(m-pinch.m)/view.p;pinch={d,m};moved=99}
-clampV();draw()};
-cv.onpointerup=cv.onpointercancel=e=>{if(drawing){cur=null;return}const o=ptr.get(e.pointerId);ptr.delete(e.pointerId);cv.style.cursor='grab';pinch=null;
-if(o&&ptr.size==0&&moved<6&&e.type=='pointerup'){const h=[...hits].reverse().find(h=>o.x>=h.x&&o.x<=h.x+h.w&&o.y>=h.y&&o.y<=h.y+h.h);
-if(h)select(h.o);else{sel=null;$('#card').hidden=true;go(V(o.x),view.p)}}};
-cv.onwheel=e=>{e.preventDefault();if(drawing)return;anim=null;zoomAt(Math.exp(-e.deltaY*.0015),lx(e));draw()};
-cv.ondblclick=e=>{if(drawing)return;anim=null;zoomAt(2.5,lx(e));draw()};
-let md=0;const mset=e=>{if(drawing)return;const x=e.clientX-mm.getBoundingClientRect().left;anim=null;view.c=cl((x-16)/(MW-32)*100,0,100);draw()};
-mm.onpointerdown=e=>{md=1;mm.setPointerCapture(e.pointerId);mset(e)};mm.onpointermove=e=>{if(md)mset(e)};mm.onpointerup=()=>md=0;
-$('#zi').onclick=()=>go(view.c,view.p*4);$('#zo').onclick=()=>go(view.c,view.p/4);$('#all').onclick=()=>{found=null;go(50,minP())};
-const ALIAS={pi:'π',phi:'φ',tau:'τ',gamma:'γ',sqrt2:'√2'};
-function parseQ(s){s=s.trim().toLowerCase().replace(/\s/g,'').replace(/,/g,'.');if(!s)return null;s=ALIAS[s]||s;
-const k=C.find(o=>o.n.toLowerCase()==s);if(k)return{v:k.v,p:3000,o:k};
-let m=s.match(/^(\d+\.?\d*)\/(\d+\.?\d*)$/);if(m&&+m[2]>0)return{v:+m[1]/+m[2],p:3000};
-m=s.match(/^(\d*)\.?(\d*)$/);if(m&&/\d/.test(s))return{v:parseFloat(s),p:Math.min(MAXP,120*Math.pow(10,Math.min(3,m[2].length)))};
-return null}
-function search(live){if(ex){if(!live)flash('Sökrutan är avstängd under övningen',2800);return}const q=parseQ($('#gt').value);
-if(!q||!(q.v>=0&&q.v<=100)){if(!live)flash(q?'Talet ligger utanför 0–100':'Skriv ett tal mellan 0 och 100, t.ex. 42 eller 3,14159',2800);return}
-if(drawing)$('#dr').click();
-found=q.v;if(q.o)select(q.o);go(q.v,q.p);if(!live)$('#gt').blur()}
-let st;$('#gt').oninput=()=>{clearTimeout(st);st=setTimeout(()=>search(true),350)};
-$('#gt').onkeydown=e=>{if(e.key=='Enter'){clearTimeout(st);search(false)}};
-$('#go').onclick=()=>search(false);
-addEventListener('keydown',e=>{if(e.target.tagName=='INPUT'||drawing)return;if(e.key=='+'||e.key=='=')$('#zi').click();if(e.key=='-')$('#zo').click();
-if(e.key=='ArrowLeft'){view.c-=60/view.p;clampV();draw()}if(e.key=='ArrowRight'){view.c+=60/view.p;clampV();draw()}});
-const hint=$('#hint'),H0=hint.textContent;let ht;
-function flash(m,ms){clearTimeout(ht);hint.textContent=m;hint.style.opacity=1;if(ms)ht=setTimeout(()=>hint.style.opacity=0,ms)}
-function hideHint(){clearTimeout(ht);hint.style.opacity=0}
-['pointerdown','wheel','keydown'].forEach(t=>addEventListener(t,hideHint,{passive:true,capture:true}));
-const PE=$('#dr').innerHTML,PL='<svg viewBox="0 0 24 24"><path d="M7 5l12 7-12 7z"/></svg><span>Fortsätt</span>';
-function setPen(c){pen=c;document.querySelectorAll('.sw').forEach(b=>b.classList.toggle('on',b.dataset.c==c))}
-document.querySelectorAll('.sw').forEach(b=>b.onclick=()=>setPen(b.dataset.c));setPen(pen);
-$('#dr').onclick=()=>{drawing=!drawing;if(drawing)closeLp();anim=null;cur=null;ptr.clear();pinch=null;$('#tools').hidden=!drawing;$('#dr').innerHTML=drawing?PL:PE;$('#dr').classList.toggle('on',drawing);document.body.classList.toggle('drawing',drawing);
-cv.style.cursor=drawing?'crosshair':'grab';if(drawing)select(null);draw()};
-let shown=true;
-function applyVis(){const h=ex&&!ex.done;$('#rv').hidden=!shown||!!h;$('#tg').hidden=!!h;$('#sr').hidden=!!ex}
-$('#tg').onclick=()=>{shown=!shown;$('#tg').textContent=shown?'Dölj talet':'Tryck för att visa talet';applyVis()};
-const LN=['Tiotal','Heltal','Tiondelar','Hundradelar','Tusendelar'],NM=['heltal','tiondelar','hundradelar','tusendelar'];
-const TOUR=[{c:50,p:0,t:'Här ser du hela tallinjen, från 0 till 100. Strecken är tiotal: 0, 10, 20 …'},{c:37,p:60,t:'Zooma in! Nu syns heltalen, ett streck för varje. Titta på området runt 37.'},{c:37.5,p:600,t:'Zooma mer. Mellan två heltal ryms 10 tiondelar: 37,2 – 37,3 – 37,4 …'},{c:37.45,p:6000,t:'Ännu mer. Mellan två tiondelar ryms 10 hundradelar: 37,43 – 37,44 – 37,45 …'},{c:37.462,p:60000,t:'Längst in ser du tusendelar. Varje steg in gör skalan 10 gånger finare.'}];
-const fb=(m,ok)=>{const f=$('#fb');if(f){f.textContent=m;f.className='fb'+(ok?' ok':'')}};
-function endEx(){if(!ex)return;ex=null;mark=null;applyVis();draw()}
-function closeLp(){endEx();$('#lp').hidden=true;$('main').classList.remove('side');draw()}
-function openLp(){if(drawing)$('#dr').click();select(null);found=null;ti=0;$('#lp').hidden=false;$('main').classList.add('side');lpTab('tour');draw()}
-function lpTab(t){endEx();document.querySelectorAll('#lt .tab').forEach(b=>b.classList.toggle('on',b.dataset.t==t));if(t=='tour')tour();else exMenu()}
-function tour(){const s=TOUR[ti];$('#pg').innerHTML=`<p class='st'>Steg ${ti+1} av ${TOUR.length}</p><p class='tt'>${s.t}</p><div class='r'><button id='tb'>Bakåt</button><button id='tn' class='pri'>${ti<TOUR.length-1?'Nästa':'Prova själv'}</button></div>`;
-$('#tb').disabled=!ti;$('#tb').onclick=()=>{ti--;tour()};$('#tn').onclick=()=>{if(ti<TOUR.length-1){ti++;tour()}else{ti=0;lpTab('ex')}};go(s.c,s.p||minP())}
-function exMenu(){const pg=$('#pg');
-pg.innerHTML=`<p class='st'>Välj övning</p><p>Vad vill du träna?</p><div class='r' id='sk'><button data-k='find'>Hitta talet</button><button data-k='read'>Läs av talet</button><button data-k='round'>Avrunda</button><button data-k='between'>Mellan två tal</button><button data-k='mid'>Mitt emellan</button><button data-k='cmp'>Vilket är störst?</button></div><p>Hur noggrant?</p><div class='r' id='sl'>${NM.map((n,i)=>`<button data-l='${i}'>${n[0].toUpperCase()+n.slice(1)}</button>`).join('')}</div><div class='r'><button id='sx'><svg viewBox='0 0 24 24'><path d='M7 5l12 7-12 7z'/></svg>Starta</button></div>`;
-const upd=()=>{pg.querySelectorAll('#sk button').forEach(b=>b.classList.toggle('on',b.dataset.k==exKind));pg.querySelectorAll('#sl button').forEach(b=>b.classList.toggle('on',b.dataset.l==exLv))};
-pg.querySelectorAll('#sk button').forEach(b=>b.onclick=()=>{exKind=b.dataset.k;upd()});
-pg.querySelectorAll('#sl button').forEach(b=>b.onclick=()=>{exLv=+b.dataset.l;upd()});upd();$('#sx').onclick=newEx}
-function newEx(){if(exKind!='find'&&exKind!='read')return newEx2();found=null;const s=Math.pow(10,exLv);let r;do{r=exLv?Math.floor(s+Math.random()*99*s):1+Math.floor(Math.random()*99)}while(exLv&&r%10==0);
-ex={kind:exKind,l:exLv,s,t:r/s,done:false};mark=exKind=='read'?ex.t:null;applyVis();
-anim=null;view.c=50;view.p=minP();clampV();const k=exKind=='find';
-$('#pg').innerHTML=`<p class='st'>${k?'Hitta talet':'Läs av talet'} · ${NM[exLv]}</p>`+(k?`<p class='tt'>Hitta ${fm(ex.t,exLv)}</p><p>Zooma och flytta så att den streckade linjen i mitten pekar exakt på talet.</p>`:`<p class='tt'>Vilket tal pekar ringen på?</p><p>Zooma in tills ringen ligger på ett streck och läs av talet.</p><div class='r'><input id='ans' inputmode='decimal' placeholder='Ditt svar'><button id='ab' class='pri'>Svara</button></div>`)+`<p class='fb' id='fb'></p><div class='r'><button id='hb'>Ledtråd</button><button id='nx'>Nytt tal</button><button id='qx'>Avsluta</button></div>`;
-$('#nx').onclick=newEx;$('#qx').onclick=()=>lpTab('ex');$('#hb').onclick=hintEx;
-if(!k){$('#ab').onclick=check;$('#ans').onkeydown=e=>{if(e.key=='Enter')check()}}draw()}
-function win(){ex.done=true;applyVis();fb(`Rätt! ${ex.kind=='find'?'Du hittade':'Ringen pekar på'} ${fm(ex.t,ex.l)}.`,1);const n=$('#nx');if(n)n.classList.add('pri')}
-function hintEx(){if(ex.done)return;if(ex.kind=='find')fb(view.p<30*ex.s?`Zooma in tills du ser ${NM[ex.l]} som streck.`:view.c<ex.t?'Talet ligger längre till höger på linjen.':'Talet ligger längre till vänster på linjen.');else fb('Ta ett steg i taget: mellan vilka tiotal ligger ringen? Zooma in och titta sedan på heltalen, tiondelarna …')}
-function check(){if(ex.done)return;const v=parseFloat($('#ans').value.replace(',','.'));if(!isFinite(v))return fb('Skriv ett tal, till exempel 12,5.');
-if(Math.abs(v-ex.t)<1e-9)win();else fb(Math.abs(v-ex.t)<=3/ex.s?'Nära! Zooma in mer och se vilket streck ringen ligger på.':'Inte riktigt. Zooma in och läs av streck för streck.')}
-const KN={round:'Avrunda',between:'Mellan två tal',mid:'Mitt emellan',cmp:'Vilket är störst?'},SN=['heltal','tiondel','hundradel','tusendel'];
-function newEx2(){found=null;const d=exLv,s=Math.pow(10,d),k=exKind,R=(a,b)=>a+Math.floor(Math.random()*(b-a));
-ex={kind:k,l:d,s,done:false};mark=null;let h='';
-const inp=`<div class='r'><input id='ans' inputmode='decimal' placeholder='Ditt svar'><button id='ab' class='pri'>Svara</button></div>`;
-if(k=='round'){let r;do{r=R(10*s,990*s)}while(r%10==0);ex.t=r/(10*s);ex.ans=Math.floor((r+5)/10)/s;ex.dg=r%10;mark=ex.t;
-h=`<p class='tt'>Avrunda till närmaste ${SN[d]}</p><p>Ringen visar ett tal. Zooma in, se vilket streck den ligger närmast och skriv det talet.</p>`+inp}
-else if(k=='between'){const a=R(s,99*s);ex.a=a/s;ex.b=(a+1)/s;ex.need=Math.min(2.2e5,400*s);
-h=`<p class='tt'>Hitta ett tal mellan ${fm(ex.a,d)} och ${fm(ex.b,d)}</p><p>Zooma in och flytta så att mittlinjen står mellan de två talen. Zooma så långt du kan!</p>`}
-else if(k=='mid'){const j=R(1,6),a=R(s,90*s);ex.a=a/s;ex.ans=(a+j)/s;
-h=`<p class='tt'>Vad ligger mitt emellan ${fm(ex.a,d)} och ${fm((a+2*j)/s,d)}?</p><p>Använd linjen för att räkna steg mellan talen.</p>`+inp}
-else{const a=R(s,99*s);let b;do{b=a*10+R(-9,10)}while(b%10==0);ex.X=a/s;ex.Y=b/(10*s);ex.big=Math.max(ex.X,ex.Y);ex.opts=[ex.X,ex.Y];if(Math.random()<.5)ex.opts.reverse();
-h=`<p class='tt'>Vilket tal är störst?</p><p>Du kan zooma på linjen och kolla.</p><div class='r'>${ex.opts.map((v,i)=>`<button class='o' data-i='${i}'>${fm(v,v==ex.X?d:d+1)}</button>`).join('')}</div>`}
-anim=null;view.c=50;view.p=minP();clampV();applyVis();
-$('#pg').innerHTML=`<p class='st'>${KN[k]} · ${NM[d]}</p>${h}<p class='fb' id='fb'></p><div class='r'><button id='hb'>Ledtråd</button><button id='nx'>Nytt tal</button><button id='qx'>Avsluta</button></div>`;
-$('#nx').onclick=newEx;$('#qx').onclick=()=>lpTab('ex');$('#hb').onclick=hint2;
-const ab=$('#ab');if(ab){ab.onclick=check2;$('#ans').onkeydown=e=>{if(e.key=='Enter')check2()}}
-document.querySelectorAll('#pg .o').forEach(b=>b.onclick=()=>{if(ex.done)return;if(ex.opts[+b.dataset.i]==ex.big){ex.done=true;applyVis();fb(`Rätt! ${fm(ex.X,d+1)} och ${fm(ex.Y,d+1)}: störst är ${fm(ex.big,d+1)}. Fler siffror betyder inte att talet är större.`,1);$('#nx').classList.add('pri')}else fb('Inte riktigt. Skriv båda talen med lika många decimaler och jämför.')});
-draw()}
-function check2(){if(ex.done)return;const v=parseFloat($('#ans').value.replace(',','.'));if(!isFinite(v))return fb('Skriv ett tal, till exempel 12,5.');
-if(Math.abs(v-ex.ans)<1e-9)win2();else fb(ex.kind=='round'?'Inte riktigt. Titta på vilket streck ringen ligger närmast.':'Inte riktigt. Räkna stegen mellan talen och ta halva vägen.')}
-function win2(){ex.done=true;applyVis();const k=ex.kind,d=ex.l;let m='';
-if(k=='round')m=`Rätt, ${fm(ex.ans,d)}! Siffran efter är ${ex.dg}, så vi avrundar ${ex.dg>=5?'uppåt':'nedåt'}.`;
-else if(k=='mid')m=`Rätt, ${fm(ex.ans,d)}! Det är halva avståndet mellan talen.`;
-else m=`Bra! Mellan ${fm(ex.a,d)} och ${fm(ex.b,d)} finns fler tal, till exempel ${nf(view.c,view.p)}. Det finns oändligt många.`;
-fb(m,1);const n=$('#nx');if(n)n.classList.add('pri')}
-function hint2(){if(ex.done)return;const k=ex.kind;fb(k=='round'?'Zooma in tills du ser tydliga streck. Vilket streck ligger ringen närmast?':k=='between'?'Zooma in ännu mer. Mellan två streck finns fler tal!':k=='mid'?'Hur många steg är det mellan talen? Mitt emellan är halva vägen.':'Leta upp båda talen på linjen. Vilket ligger längst åt höger?')}
-document.querySelectorAll('#lt .tab').forEach(b=>b.onclick=()=>lpTab(b.dataset.t));
-$('#lx').onclick=closeLp;$('#ls').onclick=()=>$('#lp').hidden?openLp():closeLp();
-$('#undo').onclick=()=>{strokes.pop();draw()};$('#clr').onclick=()=>{strokes.length=0;draw()};
-const ro=new ResizeObserver(size);ro.observe(document.body);ro.observe(cv);matchMedia('(prefers-color-scheme: dark)').onchange=draw;size();flash(H0,7000);
-if(document.fonts){Promise.all([document.fonts.load('12px "JetBrains Mono"'),document.fonts.load('40px "Instrument Serif"')]).then(draw).catch(()=>{})}
-</script></body></html>
+(function(){
+var bg=document.querySelector('.burger'),mn=document.getElementById('menu');
+bg.addEventListener('click',function(){var o=mn.classList.toggle('open');bg.setAttribute('aria-expanded',o)});
+mn.addEventListener('click',function(e){if(e.target.tagName==='A'){mn.classList.remove('open');bg.setAttribute('aria-expanded','false')}});
+var io=('IntersectionObserver' in window)?new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.12}):null;
+document.querySelectorAll('.rv').forEach(function(n,i){if(io){n.style.transitionDelay=(i%4)*70+'ms';io.observe(n)}else n.classList.add('in')});
+var f=document.getElementById('f'),msg=document.getElementById('msg'),MAIL='bjorn@rivierabyggkonsult.se';
+function mailto(d){var b='Namn: '+d.name+'\nE-post: '+d.email+'\nTelefon: '+d.phone+'\nUppdrag: '+d.kind+'\n\n'+d.text;
+location.href='mailto:'+MAIL+'?subject='+encodeURIComponent('Förfrågan via hemsidan')+'&body='+encodeURIComponent(b)}
+f.addEventListener('submit',async function(e){
+e.preventDefault();var fd=new FormData(f);if(fd.get('website'))return;
+var d={name:fd.get('name'),email:fd.get('email'),phone:fd.get('phone')||'',kind:fd.get('kind'),text:fd.get('text')||''};
+msg.textContent='Skickar …';
+try{var r=await fetch('send.php',{method:'POST',body:fd});var j=await r.json();
+if(!r.ok||!j.ok)throw new Error('fail');
+f.reset();msg.textContent='Tack! Vi hör av oss inom en arbetsdag.'}
+catch(err){msg.textContent='Något gick fel – öppnar ditt e-postprogram i stället …';mailto(d)}});
+})();
+</script>
+</body>
+</html>
